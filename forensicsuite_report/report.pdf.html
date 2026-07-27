@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ForensicSuite Report</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+.header { background: #1a237e; color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+.scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+.score-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
+.score-value { font-size: 48px; font-weight: bold; }
+.score-max { font-size: 18px; color: #666; }
+.plugin-section { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.badge { color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; margin-left: 10px; }
+pre { background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; }
+h4 { margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="header">
+    <h1>ForensicSuite Report</h1>
+    <p>/data/data/com.termux/files/home/projekt_puzzle/ForensicSuite-v1 | 84 súborov</p>
+</div>
+<div class="scores">
+    
+        <div class="score-card">
+            <h3>maintainability</h3>
+            <div class="score-value" style="color:#ff9800">74.9</div>
+            <div class="score-max">/ 100</div>
+        </div>
+        
+        <div class="score-card">
+            <h3>architecture</h3>
+            <div class="score-value" style="color:#4caf50">100.0</div>
+            <div class="score-max">/ 100</div>
+        </div>
+        
+        <div class="score-card">
+            <h3>security</h3>
+            <div class="score-value" style="color:#4caf50">100.0</div>
+            <div class="score-max">/ 100</div>
+        </div>
+        
+</div>
+
+        <div class="plugin-section">
+            <h4>ai_assistant <span class="badge" style="background:#4caf50">ok</span></h4>
+            <pre>{
+  "status": "post_processor",
+  "description": "Analyzuje nálezy ostatných pluginov a klasifikuje ich pravdepodobnosť"
+}</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>filesystem <span class="badge" style="background:#4caf50">ok</span></h4>
+            <pre>[
+  {
+    "plugin": "filesystem",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Prázdny súbor: api.log",
+    "location": "api.log",
+    "confidence": 1.0,
+    "metadata": {}
+  },
+  {
+    "plugin": "filesystem",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Prázdny súbor: plugins/kotlin/__init__.py",
+    "location": "plugins/kotlin/__init__.py",
+    "confidence": 1.0,
+    "metadata": {}
+  },
+  {
+    "plugin": "filesystem",
+    "severity": "MEDIUM",
+    "severity_value": 3,
+    "message": "Duplicitné súbory: cli/__init__.py, core/__init__.py, plugins/__init__.py...",
+    "location": "cli/__init__.py",
+    "confidence": 0.9,
+    "metadata": {
+      "duplicate_group": [
+        "cli/__init__.py",
+        "core/__init__.py",
+        "plugins/__init__.py",
+        "plugins/filesystem/__init__.py",
+        "plugins/git/__init__.py",
+        "plugins/python/__init__.py",
+        "plugins/secrets/__init__.py",
+        "plugins/shell/__init__.py",
+        "reports/__init__.py",
+        "scoring/__init__.py",
+        "server/__init__.py",
+        "forensicsuite_sdk.egg-info/not-zip-safe",
+        "forensicsuite_sdk.egg-info/dependency_links.txt"
+      ]
+    }
+  },
+  {
+    "plugin": "filesystem",
+    "severity": "MEDIUM",
+    "severity_value": 3,
+    "message": "Duplicitné súbory: core/engine.py, core/engine.py.bak5",
+    "location": "core/engine.py",
+    "confidence": 0.9,
+    "metadata": {
+      "duplicate_group": [
+        "core/engine.py",
+        "core/engine.py.bak5"
+      ]
+    }
+  }
+]</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>git <span class="badge" style="background:#9e9e9e">skipped</span></h4>
+            <pre>{}</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>go <span class="badge" style="background:#9e9e9e">skipped</span></h4>
+            <pre>{}</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>javascript <span class="badge" style="background:#4caf50">ok</span></h4>
+            <pre>[
+  {
+    "plugin": "javascript",
+    "severity": "INFO",
+    "severity_value": 1,
+    "message": "Chýba package.json alebo .eslintrc – preskočené",
+    "location": "/data/data/com.termux/files/home/projekt_puzzle/ForensicSuite-v1",
+    "confidence": 1.0,
+    "metadata": {}
+  }
+]</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>kotlin <span class="badge" style="background:#9e9e9e">skipped</span></h4>
+            <pre>{}</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>python <span class="badge" style="background:#4caf50">ok</span></h4>
+            <pre>[
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: get_cached v core/cache.py (riadok 32)",
+    "location": "core/cache.py:32",
+    "confidence": 0.6,
+    "metadata": {
+      "function": "get_cached"
+    }
+  },
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: set_cached v core/cache.py (riadok 52)",
+    "location": "core/cache.py:52",
+    "confidence": 0.6,
+    "metadata": {
+      "function": "set_cached"
+    }
+  },
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: filter_findings v core/finding.py (riadok 70)",
+    "location": "core/finding.py:70",
+    "confidence": 0.6,
+    "metadata": {
+      "function": "filter_findings"
+    }
+  },
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: sort_findings v core/finding.py (riadok 74)",
+    "location": "core/finding.py:74",
+    "confidence": 0.6,
+    "metadata": {
+      "function": "sort_findings"
+    }
+  },
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: run_json v core/tool_runner.py (riadok 43)",
+    "location": "core/tool_runner.py:43",
+    "confidence": 0.6,
+    "metadata": {
+      "function": "run_json"
+    }
+  },
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: log_message v server/api.py (riadok 38)",
+    "location": "server/api.py:38",
+    "confidence": 0.6,
+    "metadata": {
+      "function": "log_message"
+    }
+  },
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: do_GET v server/api.py (riadok 48)",
+    "location": "server/api.py:48",
+    "confidence": 0.6,
+    "metadata": {
+      "function": "do_GET"
+    }
+  },
+  {
+    "plugin": "python",
+    "severity": "LOW",
+    "severity_value": 2,
+    "message": "Dead code: do_POST v server/api.py (ria</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>secrets <span class="badge" style="background:#4caf50">ok</span></h4>
+            <pre>[]</pre>
+        </div>
+        
+        <div class="plugin-section">
+            <h4>shell <span class="badge" style="background:#4caf50">ok</span></h4>
+            <pre>[]</pre>
+        </div>
+        
+</body>
+</html>

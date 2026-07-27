@@ -1,0 +1,11 @@
+# Volitelné závislosti pre rozšírenú funkcionalitu
+# Základná platforma beží bez nich (stdlib only).
+#
+# Pre YAML config:
+# PyYAML>=6.0
+#
+# Pre HTML reporty s grafmi (voliteľné):
+# jinja2>=3.0
+
+# Pre JavaScript/TypeScript plugin je potrebný ESLint
+# Inštalácia: npm install -g eslint

@@ -1,0 +1,43 @@
+nohup: ignoring input
+::ffff:192.168.1.200 - - [26/Jul/2026 22:29:31] "GET / HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:29:31] "GET /chart.min.js HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:29:31] "GET /assets/logo-bg.png HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:32:00] "GET / HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:32:00] "GET /assets/logo-bg.png HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:34:40] "GET / HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:34:40] "GET /assets/logo-bg.png HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:36:13] "GET / HTTP/1.1" 200 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:36:13] "GET /report.json?t=1785098173065 HTTP/1.1" 200 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:51:28] "GET / HTTP/1.1" 200 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:51:28] "GET /chart.min.js HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:51:28] "GET /assets/logo-bg.png HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:51:39] "GET / HTTP/1.1" 304 -
+::ffff:192.168.1.200 - - [26/Jul/2026 22:54:00] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:127.0.0.1', 44480, 0, 0)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.14/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.14/http/server.py", line 1418, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             directory=args.directory)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.14/http/server.py", line 732, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.14/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.14/http/server.py", line 496, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.14/http/server.py", line 464, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+                           ~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.14/socket.py", line 729, in readinto
+    return self._sock.recv_into(b)
+           ~~~~~~~~~~~~~~~~~~~~^^^
+ConnectionResetError: [Errno 104] Connection reset by peer
+----------------------------------------
