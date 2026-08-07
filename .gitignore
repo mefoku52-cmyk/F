@@ -1,0 +1,49 @@
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.so
+*.dylib
+
+# Environment
+.env
+.env.local
+.env.*.local
+.secrets.baseline
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Database
+*.db
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Security
+bandit.json
+safety.json
+final_bandit.json
+
+# Archives
+*.tar.gz
+*.zip
+*.rar
+*.7z
+
+# OS
+.DS_Store
+Thumbs.db

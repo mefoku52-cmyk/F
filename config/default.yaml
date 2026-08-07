@@ -1,0 +1,43 @@
+# ForensicSuite v1.0 – Default Config
+# Tento súbor je TERAZ načítavaný engine-om (na rozdiel od v0.1).
+
+exclude_dirs:
+  - .git
+  - __pycache__
+  - .venv
+  - venv
+  - node_modules
+  - build
+  - dist
+  - forensicsuite_report
+  - forensicsuite_cache
+
+scoring_weights:
+  maintainability:
+    complexity_penalty_cap: 40
+    duplicate_penalty_cap: 20
+    unused_imports_penalty_cap: 15
+  architecture:
+    cyclic_import_penalty_per_cycle: 15
+    orphaned_file_penalty_per_file: 2
+  security:
+    vuln_penalty_per_cve: 20
+    secret_penalty_per_finding: 10
+    secret_penalty_cap: 50
+
+cve_check:
+  enabled: true
+  timeout_seconds: 10
+
+secrets:
+  enabled: true
+
+cache:
+  enabled: true
+  dir: forensicsuite_cache
+  ttl_seconds: 3600
+
+server:
+  host: 127.0.0.1
+  port: 8765
+

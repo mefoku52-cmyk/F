@@ -1,0 +1,21 @@
+import bcrypt
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+class PasswordService:
+    @staticmethod
+    def hash_password(password: str) -> str:
+        salt = bcrypt.gensalt()
+        return bcrypt.hashpw(password.encode(), salt).decode()
+
+    @staticmethod
+    def verify_password(password: str, hashed: str) -> bool:
+        return bcrypt.checkpw(password.encode(), hashed.encode())
+
+    @staticmethod
+    def get_password_from_env(key: str = "DB_PASSWORD") -> str:
+        """Bezpečne načíta heslo z premenných prostredia."""
+        return os.environ.get(key, "")
