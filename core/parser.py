@@ -14,4 +14,3 @@ def safe_read_text(path: str, max_bytes: int = 5_000_000) -> Optional[str]:
         return raw.decode("utf-8", errors="strict")
     except (UnicodeDecodeError, OSError):
         return None
-

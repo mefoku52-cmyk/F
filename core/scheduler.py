@@ -45,4 +45,3 @@ def run_plugins(
                 "error": str(e),
             }
     return results
-

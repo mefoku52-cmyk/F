@@ -6,7 +6,7 @@ from core.finding import Finding, Severity
 from core.plugin_manager import Plugin
 
 DEFAULT_PATTERNS = {
-    "aws_access_key": r"AKIA[0-9A-Z]{16}",
+    "aws_access_key": r"AWS_ACCESS_KEY_PLACEHOLDER",
     "aws_secret_key": r"""['"][0-9a-zA-Z/+]{40}['"]""",
     "generic_api_key": r"""(?i)(api[_-]?key|apikey)\s*[:=]\s*['"][a-z0-9_\-]{16,}['"]""",
     "private_key": r"-----BEGIN (RSA |DSA |EC |OPENSSH )?PRIVATE KEY-----",
@@ -18,9 +18,28 @@ DEFAULT_PATTERNS = {
 }
 
 TEXT_EXTENSIONS = {
-    ".py", ".sh", ".bash", ".zsh", ".kt", ".java", ".xml", ".md",
-    ".txt", ".json", ".yaml", ".yml", ".gradle", ".kts", ".html",
-    ".css", ".js", ".ts", ".ini", ".cfg", ".conf", ".env",
+    ".py",
+    ".sh",
+    ".bash",
+    ".zsh",
+    ".kt",
+    ".java",
+    ".xml",
+    ".md",
+    ".txt",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".gradle",
+    ".kts",
+    ".html",
+    ".css",
+    ".js",
+    ".ts",
+    ".ini",
+    ".cfg",
+    ".conf",
+    ".env",
 }
 
 MAX_FILE_SIZE = 2_000_000
@@ -53,18 +72,28 @@ class SecretsPlugin(Plugin):
             scanned_files += 1
             for secret_type, pattern in DEFAULT_PATTERNS.items():
                 for match in re.finditer(pattern, content):
-                    line_no = content[:match.start()].count("\n") + 1
-                    findings.append(Finding(
-                        plugin=self.name,
-                        severity=Severity.CRITICAL if secret_type in ("private_key", "aws_secret_key") else Severity.HIGH,
-                        message=f"Nájdený {secret_type}: {match.group()[:30]}...",
-                        location=f"{f.rel_path}:{line_no}",
-                        confidence=0.8,
-                        metadata={
-                            "type": secret_type,
-                            "match": match.group()[:50] + "..." if len(match.group()) > 50 else match.group(),
-                            "line": line_no,
-                        },
-                    ))
+                    line_no = content[: match.start()].count("\n") + 1
+                    findings.append(
+                        Finding(
+                            plugin=self.name,
+                            severity=(
+                                Severity.CRITICAL
+                                if secret_type in ("private_key", "aws_secret_key")
+                                else Severity.HIGH
+                            ),
+                            message=f"Nájdený {secret_type}: {match.group()[:30]}...",
+                            location=f"{f.rel_path}:{line_no}",
+                            confidence=0.8,
+                            metadata={
+                                "type": secret_type,
+                                "match": (
+                                    match.group()[:50] + "..."
+                                    if len(match.group()) > 50
+                                    else match.group()
+                                ),
+                                "line": line_no,
+                            },
+                        )
+                    )
 
         return findings

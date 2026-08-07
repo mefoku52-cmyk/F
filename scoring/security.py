@@ -17,7 +17,13 @@ def score_security(
     secret_cap = weights.get("secret_penalty_cap", 50)
 
     # CVE nálezy (severity CRITICAL od python pluginu)
-    cve_findings = [f for f in findings if f.plugin == "python" and f.severity == Severity.CRITICAL and "CVE" in f.message]
+    cve_findings = [
+        f
+        for f in findings
+        if f.plugin == "python"
+        and f.severity == Severity.CRITICAL
+        and "CVE" in f.message
+    ]
     vuln_count = len(cve_findings)
 
     # Secrets nálezy (severity HIGH/CRITICAL od secrets pluginu)

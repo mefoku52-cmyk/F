@@ -23,13 +23,15 @@ class KotlinPlugin(Plugin):
 
         # Kontrola, či je detekt nainštalovaný
         if not runner.check_installed("detekt"):
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.INFO,
-                message="detekt nie je nainštalovaný – preskočené",
-                location=project_path,
-                confidence=1.0,
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.INFO,
+                    message="detekt nie je nainštalovaný – preskočené",
+                    location=project_path,
+                    confidence=1.0,
+                )
+            )
             return findings
 
         # Nájdi .kt súbory
@@ -40,9 +42,12 @@ class KotlinPlugin(Plugin):
         # Spustíme detekt s výstupom v JSON
         cmd = [
             "detekt",
-            "--input", project_path,
-            "--output", "-",
-            "--report", "json:detekt_report.json",
+            "--input",
+            project_path,
+            "--output",
+            "-",
+            "--report",
+            "json:detekt_report.json",
             "--parallel",
         ]
 
@@ -60,18 +65,20 @@ class KotlinPlugin(Plugin):
                 for file_path, issues in data.get("files", {}).items():
                     for issue in issues.get("issues", []):
                         severity = self._map_severity(issue.get("severity", "Info"))
-                        findings.append(Finding(
-                            plugin=self.name,
-                            severity=severity,
-                            message=f"[{issue.get('id', 'unknown')}] {issue.get('message', '')[:100]}",
-                            location=f"{os.path.relpath(file_path, project_path)}:{issue.get('line', 1)}",
-                            confidence=0.85,
-                            metadata={
-                                "rule": issue.get("id"),
-                                "severity_original": issue.get("severity"),
-                                "line": issue.get("line"),
-                            },
-                        ))
+                        findings.append(
+                            Finding(
+                                plugin=self.name,
+                                severity=severity,
+                                message=f"[{issue.get('id', 'unknown')}] {issue.get('message', '')[:100]}",
+                                location=f"{os.path.relpath(file_path, project_path)}:{issue.get('line', 1)}",
+                                confidence=0.85,
+                                metadata={
+                                    "rule": issue.get("id"),
+                                    "severity_original": issue.get("severity"),
+                                    "line": issue.get("line"),
+                                },
+                            )
+                        )
             except (json.JSONDecodeError, OSError):
                 pass
 

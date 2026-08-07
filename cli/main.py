@@ -21,17 +21,24 @@ def build_arg_parser() -> argparse.ArgumentParser:
     scan_parser = subparsers.add_parser("scan", help="Spusti analýzu projektu")
     scan_parser.add_argument("path", help="Cesta k projektu")
     scan_parser.add_argument("--config", default="", help="Cesta k config súboru")
-    scan_parser.add_argument("--formats", default="json,markdown", help="Čiarkou oddelené formáty")
-    scan_parser.add_argument("--output-dir", default="forensicsuite_report", help="Výstupný priečinok")
+    scan_parser.add_argument(
+        "--formats", default="json,markdown", help="Čiarkou oddelené formáty"
+    )
+    scan_parser.add_argument(
+        "--output-dir", default="forensicsuite_report", help="Výstupný priečinok"
+    )
     scan_parser.add_argument("--verbose", action="store_true", help="Podrobný výstup")
     scan_parser.add_argument("--no-cache", action="store_true", help="Vypni cache")
-    scan_parser.add_argument("--no-history", action="store_true", help="Vypni ukladanie histórie")
+    scan_parser.add_argument(
+        "--no-history", action="store_true", help="Vypni ukladanie histórie"
+    )
 
     server_parser = subparsers.add_parser("server", help="Spusti HTTP API server")
     server_parser.add_argument("--host", default="127.0.0.1", help="Host")
     server_parser.add_argument("--port", type=int, default=8765, help="Port")
 
     from cli.history_cmd import add_history_parser
+
     add_history_parser(subparsers)
 
     return parser
@@ -114,6 +121,7 @@ def _run_scan(args: argparse.Namespace) -> int:
 
 def _run_server(args: argparse.Namespace) -> int:
     from server.api import run_server
+
     run_server(host=args.host, port=args.port)
     return 0
 

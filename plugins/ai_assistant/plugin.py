@@ -2,6 +2,7 @@
 AI Asistent plugin – lokálny filter false positives.
 Nepotrebuje externé API. Používa heuristiky a pattern matching.
 """
+
 from typing import Any, Dict, List
 
 from core.collector import FileInfo
@@ -57,15 +58,17 @@ class AIAssistantPlugin(Plugin):
                 reasons.append("Dunder method")
 
             confidence = 1.0 - fp_score
-            classifications.append({
-                "plugin": "python",
-                "type": "dead_code",
-                "file": path,
-                "function": func,
-                "confidence": round(confidence, 2),
-                "is_likely_real": confidence > 0.5,
-                "reasons": reasons if reasons else ["No obvious FP indicators"],
-            })
+            classifications.append(
+                {
+                    "plugin": "python",
+                    "type": "dead_code",
+                    "file": path,
+                    "function": func,
+                    "confidence": round(confidence, 2),
+                    "is_likely_real": confidence > 0.5,
+                    "reasons": reasons if reasons else ["No obvious FP indicators"],
+                }
+            )
 
         # --- Shell findings ---
         shell_data = raw_result.get("plugins", {}).get("shell", {}).get("data", {})
@@ -82,20 +85,22 @@ class AIAssistantPlugin(Plugin):
             if ftype == "sudo" and ('"' in line or "'" in line):
                 fp_score += 0.90
                 reasons.append("Inside string literal")
-            if "r\"" in line or "r'" in line:
+            if 'r"' in line or "r'" in line:
                 fp_score += 0.80
                 reasons.append("Inside regex pattern")
 
             confidence = 1.0 - fp_score
-            classifications.append({
-                "plugin": "shell",
-                "type": ftype,
-                "file": finding.get("file"),
-                "line": finding.get("line"),
-                "confidence": round(confidence, 2),
-                "is_likely_real": confidence > 0.5,
-                "reasons": reasons if reasons else ["No obvious FP indicators"],
-            })
+            classifications.append(
+                {
+                    "plugin": "shell",
+                    "type": ftype,
+                    "file": finding.get("file"),
+                    "line": finding.get("line"),
+                    "confidence": round(confidence, 2),
+                    "is_likely_real": confidence > 0.5,
+                    "reasons": reasons if reasons else ["No obvious FP indicators"],
+                }
+            )
 
         # Agregácia
         real_count = sum(1 for c in classifications if c["is_likely_real"])
@@ -106,5 +111,5 @@ class AIAssistantPlugin(Plugin):
             "likely_real": real_count,
             "likely_false_positive": fp_count,
             "classifications": classifications,
-            "recommendation": f"Z {len(classifications)} nálezov je pravdepodobne {fp_count} false positive. Odporúčam ručnú kontrolu {real_count} zvyšných."
+            "recommendation": f"Z {len(classifications)} nálezov je pravdepodobne {fp_count} false positive. Odporúčam ručnú kontrolu {real_count} zvyšných.",
         }

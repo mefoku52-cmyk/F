@@ -1,0 +1,18 @@
+environment: development
+debug: false
+
+security:
+  secret_key: ${SECRET_KEY:-default_dev_key}
+  jwt_secret: ${JWT_SECRET:-change_me}
+
+database:
+  host: ${DB_HOST:-localhost}
+  port: ${DB_PORT:-5432}
+  name: ${DB_NAME:-forensicsuite}
+  user: ${DB_USER:-admin}
+  password: ${DB_PASSWORD:-change_me}
+
+aws:
+  access_key: ${AWS_ACCESS_KEY_ID:-}
+  secret_key: ${AWS_SECRET_ACCESS_KEY:-}
+  region: ${AWS_REGION:-eu-central-1}

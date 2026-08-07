@@ -25,7 +25,9 @@ class HistoryManager:
                 version TEXT
             )
         """)
-        cursor.execute("CREATE INDEX IF NOT EXISTS idx_project_path ON scans(project_path)")
+        cursor.execute(
+            "CREATE INDEX IF NOT EXISTS idx_project_path ON scans(project_path)"
+        )
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_timestamp ON scans(timestamp)")
         conn.commit()
         conn.close()
@@ -33,26 +35,31 @@ class HistoryManager:
     def save_scan(self, result: Dict[str, Any]) -> int:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO scans (
                 timestamp, project_path, file_count,
                 scores_json, findings_json, plugins_json, version
             ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (
-            int(time.time()),
-            result.get("project_path", ""),
-            result.get("file_count", 0),
-            json.dumps(result.get("scores", {})),
-            json.dumps(result.get("findings", [])),
-            json.dumps(result.get("plugins", {})),
-            result.get("version", ""),
-        ))
+        """,
+            (
+                int(time.time()),
+                result.get("project_path", ""),
+                result.get("file_count", 0),
+                json.dumps(result.get("scores", {})),
+                json.dumps(result.get("findings", [])),
+                json.dumps(result.get("plugins", {})),
+                result.get("version", ""),
+            ),
+        )
         scan_id = cursor.lastrowid
         conn.commit()
         conn.close()
         return scan_id
 
-    def get_history(self, project_path: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
+    def get_history(
+        self, project_path: Optional[str] = None, limit: int = 50
+    ) -> List[Dict[str, Any]]:
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
@@ -90,17 +97,25 @@ class HistoryManager:
         total_scans = cursor.fetchone()[0]
         cursor.execute("SELECT COUNT(DISTINCT project_path) FROM scans")
         total_projects = cursor.fetchone()[0]
-        cursor.execute("SELECT project_path, COUNT(*) as count FROM scans GROUP BY project_path ORDER BY count DESC LIMIT 5")
-        top_projects = [{"project": row[0], "scans": row[1]} for row in cursor.fetchall()]
+        cursor.execute(
+            "SELECT project_path, COUNT(*) as count FROM scans GROUP BY project_path ORDER BY count DESC LIMIT 5"
+        )
+        top_projects = [
+            {"project": row[0], "scans": row[1]} for row in cursor.fetchall()
+        ]
         conn.close()
-        return {"total_scans": total_scans, "total_projects": total_projects, "top_projects": top_projects}
+        return {
+            "total_scans": total_scans,
+            "total_projects": total_projects,
+            "top_projects": top_projects,
+        }
 
     def get_trend(self, project_path: str, score_type: str, limit: int = 10) -> list:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute(
             "SELECT timestamp, scores_json FROM scans WHERE project_path = ? ORDER BY timestamp DESC LIMIT ?",
-            (project_path, limit)
+            (project_path, limit),
         )
         rows = cursor.fetchall()
         conn.close()

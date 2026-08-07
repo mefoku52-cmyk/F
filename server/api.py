@@ -10,13 +10,18 @@ if _SERVER_ROOT not in sys.path:
     sys.path.insert(0, _SERVER_ROOT)
 
 from core.engine import ForensicEngine
-from core.fixer import fix_duplicates, get_deadcode_suggestions, get_dangerous_suggestions
+from core.fixer import (
+    fix_duplicates,
+    get_deadcode_suggestions,
+    get_dangerous_suggestions,
+)
 from core.history import HistoryManager
 from core.publisher import build_and_publish
 from reports import json_report, markdown_report, html_report
 
 _lock = threading.Lock()
 _last_result = None
+
 
 def _scan_project(path: str, formats: list) -> Dict[str, Any]:
     global _last_result
@@ -34,6 +39,7 @@ def _scan_project(path: str, formats: list) -> Dict[str, Any]:
             html_report.generate(result, os.path.join(output_dir, "report.html"))
     return result
 
+
 class _Handler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         pass
@@ -50,6 +56,7 @@ class _Handler(BaseHTTPRequestHandler):
             self._send_json({"status": "ok"})
         elif self.path == "/version":
             from version import __version__
+
             self._send_json({"version": __version__})
         elif self.path == "/last_report":
             global _last_result
@@ -100,11 +107,17 @@ class _Handler(BaseHTTPRequestHandler):
                     duplicates = []
                     for f in data:
                         if f.get("message", "").startswith("Duplicitné súbory"):
-                            duplicates.append(f.get("metadata", {}).get("duplicate_group", []))
+                            duplicates.append(
+                                f.get("metadata", {}).get("duplicate_group", [])
+                            )
                     # Ak sme nenašli v metadata, skúsime alternatívny spôsob
                     if not duplicates:
                         # Starší formát: priamo v data
-                        fs_data = _last_result.get("plugins", {}).get("filesystem", {}).get("data", {})
+                        fs_data = (
+                            _last_result.get("plugins", {})
+                            .get("filesystem", {})
+                            .get("data", {})
+                        )
                         if isinstance(fs_data, dict):
                             duplicates = fs_data.get("duplicate_groups", [])
                 else:
@@ -112,7 +125,9 @@ class _Handler(BaseHTTPRequestHandler):
             else:
                 duplicates = []
             if not duplicates:
-                self._send_json({"status": "ok", "message": "Žiadne duplicity", "removed": []})
+                self._send_json(
+                    {"status": "ok", "message": "Žiadne duplicity", "removed": []}
+                )
                 return
             project_path = _last_result.get("project_path", ".")
             result = fix_duplicates(project_path, duplicates)
@@ -122,7 +137,9 @@ class _Handler(BaseHTTPRequestHandler):
             if not _last_result:
                 self._send_json({"error": "Žiadny predošlý sken"}, 400)
                 return
-            python_data = _last_result.get("plugins", {}).get("python", {}).get("data", {})
+            python_data = (
+                _last_result.get("plugins", {}).get("python", {}).get("data", {})
+            )
             deadcode = python_data.get("dead_code_candidates", [])
             suggestions = get_deadcode_suggestions(deadcode)
             self._send_json({"status": "ok", "suggestions": suggestions})
@@ -131,7 +148,9 @@ class _Handler(BaseHTTPRequestHandler):
             if not _last_result:
                 self._send_json({"error": "Žiadny predošlý sken"}, 400)
                 return
-            shell_data = _last_result.get("plugins", {}).get("shell", {}).get("data", {})
+            shell_data = (
+                _last_result.get("plugins", {}).get("shell", {}).get("data", {})
+            )
             dangerous = shell_data.get("findings", [])
             suggestions = get_dangerous_suggestions(dangerous)
             self._send_json({"status": "ok", "suggestions": suggestions})
@@ -158,8 +177,16 @@ class _Handler(BaseHTTPRequestHandler):
             project_path = _last_result.get("project_path", ".")
             output_dir = os.path.join(project_path, "forensicsuite_report")
             os.makedirs(output_dir, exist_ok=True)
-            html_report.generate(_last_result, os.path.join(output_dir, "report.pdf.html"))
-            self._send_json({"status": "ok", "message": "PDF export pripravený", "path": os.path.join(output_dir, "report.pdf.html")})
+            html_report.generate(
+                _last_result, os.path.join(output_dir, "report.pdf.html")
+            )
+            self._send_json(
+                {
+                    "status": "ok",
+                    "message": "PDF export pripravený",
+                    "path": os.path.join(output_dir, "report.pdf.html"),
+                }
+            )
 
         else:
             self._send_json({"error": "Not found"}, 404)
@@ -171,10 +198,12 @@ class _Handler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
+
 def run_server(host: str = "0.0.0.0", port: int = 8765) -> None:
     global _last_result
     # Automatický sken pri štarte – spustíme v samostatnom vlákne
     import threading
+
     def auto_scan():
         try:
             print("🔄 Spúšťam automatický sken na pozadí...")
@@ -182,6 +211,7 @@ def run_server(host: str = "0.0.0.0", port: int = 8765) -> None:
             print("✅ Automatický sken dokončený")
         except Exception as e:
             print(f"⚠️ Automatický sken zlyhal: {e}")
+
     threading.Thread(target=auto_scan, daemon=True).start()
     server = HTTPServer((host, port), _Handler)
     print(f"ForensicSuite API beží na http://{host}:{port}")

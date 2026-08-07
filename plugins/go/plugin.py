@@ -22,58 +22,69 @@ class GoPlugin(Plugin):
 
         # 1. Skontrolujeme, či existuje go.mod
         if not os.path.isfile(os.path.join(project_path, "go.mod")):
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.INFO,
-                message="Chýba go.mod – preskočené",
-                location=project_path,
-                confidence=1.0,
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.INFO,
+                    message="Chýba go.mod – preskočené",
+                    location=project_path,
+                    confidence=1.0,
+                )
+            )
             return findings
 
         # 2. Skontrolujeme, či je nainštalovaný golangci-lint
         if not runner.check_installed("golangci-lint"):
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.INFO,
-                message="golangci-lint nie je nainštalovaný – preskočené",
-                location=project_path,
-                confidence=1.0,
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.INFO,
+                    message="golangci-lint nie je nainštalovaný – preskočené",
+                    location=project_path,
+                    confidence=1.0,
+                )
+            )
             return findings
 
         # 3. Spustenie golangci-lint s JSON výstupom
         cmd = [
-            "golangci-lint", "run",
-            "--out-format", "json",
-            "--issues-exit-code", "0",
+            "golangci-lint",
+            "run",
+            "--out-format",
+            "json",
+            "--issues-exit-code",
+            "0",
             "./...",
         ]
 
         rc, stdout, stderr = runner.run(cmd, cwd=project_path, timeout=120)
 
         if rc != 0 and stdout.strip() == "":
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.MEDIUM,
-                message=f"golangci-lint zlyhal: {stderr[:100]}",
-                location=project_path,
-                confidence=0.7,
-                metadata={"stderr": stderr[:200]},
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.MEDIUM,
+                    message=f"golangci-lint zlyhal: {stderr[:100]}",
+                    location=project_path,
+                    confidence=0.7,
+                    metadata={"stderr": stderr[:200]},
+                )
+            )
             return findings
 
         # 4. Parsovanie JSON výstupu
         try:
             data = json.loads(stdout) if stdout else {}
         except json.JSONDecodeError:
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.MEDIUM,
-                message="golangci-lint vrátil neplatný JSON",
-                location=project_path,
-                confidence=0.5,
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.MEDIUM,
+                    message="golangci-lint vrátil neplatný JSON",
+                    location=project_path,
+                    confidence=0.5,
+                )
+            )
             return findings
 
         # 5. Mapovanie na Finding
@@ -87,20 +98,22 @@ class GoPlugin(Plugin):
             rule_id = issue.get("FromLinter", "unknown")
             message = issue.get("Text", "")
 
-            findings.append(Finding(
-                plugin=self.name,
-                severity=severity,
-                message=f"[{rule_id}] {message[:100]}",
-                location=f"{rel_path}:{line}" if rel_path else "",
-                confidence=0.85,
-                metadata={
-                    "rule_id": rule_id,
-                    "line": line,
-                    "column": column,
-                    "severity_original": issue.get("Severity"),
-                    "source_lines": issue.get("SourceLines", [])[:3],
-                },
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=severity,
+                    message=f"[{rule_id}] {message[:100]}",
+                    location=f"{rel_path}:{line}" if rel_path else "",
+                    confidence=0.85,
+                    metadata={
+                        "rule_id": rule_id,
+                        "line": line,
+                        "column": column,
+                        "severity_original": issue.get("Severity"),
+                        "source_lines": issue.get("SourceLines", [])[:3],
+                    },
+                )
+            )
 
         return findings
 

@@ -1,5 +1,6 @@
 import os
 import sys
+
 sys.path.insert(0, os.getcwd())
 
 # Oprava server/api.py – správne spracovanie findings
@@ -50,9 +51,12 @@ else:
     print("⚠️ Pôvodný kód nebol nájdený, skúšam alternatívnu opravu...")
     # Alternatívna oprava – nájsť a nahradiť
     import re
+
     pattern = r'fs_data = _last_result\.get\("plugins", \{\}\)\.get\("filesystem", \{\}\)\.get\("data", \{\}\))\s+duplicates = fs_data\.get\("duplicate_groups", \[\]\)'
     if re.search(pattern, content):
-        content = re.sub(pattern, '''fs_data = _last_result.get("plugins", {}).get("filesystem", {}).get("data", {})
+        content = re.sub(
+            pattern,
+            """fs_data = _last_result.get("plugins", {}).get("filesystem", {}).get("data", {})
             # Ak je fs_data list, extrahujeme duplicity z findings
             if isinstance(fs_data, list):
                 duplicates = []
@@ -62,7 +66,9 @@ else:
                         if dup_group:
                             duplicates.append(dup_group)
             else:
-                duplicates = fs_data.get("duplicate_groups", [])''', content)
+                duplicates = fs_data.get("duplicate_groups", [])""",
+            content,
+        )
         with open(api_path, "w") as f:
             f.write(content)
         print("✅ Opravené (regex)")
@@ -72,4 +78,6 @@ else:
 print("")
 print("Reštartuj API server:")
 print("  pkill -f 'server.api'")
-print("  python3 -c 'from server.api import run_server; run_server(host=\"0.0.0.0\", port=8765)'")
+print(
+    "  python3 -c 'from server.api import run_server; run_server(host=\"0.0.0.0\", port=8765)'"
+)

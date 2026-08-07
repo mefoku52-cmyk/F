@@ -1,2 +1,15 @@
-__pycache__/
 *.pyc
+__pycache__/
+*.pyo
+.env
+.env.local
+.secrets.baseline
+*.log
+*.db
+*.sqlite3
+.pytest_cache/
+.coverage
+htmlcov/
+bandit.json
+safety.json
+final_bandit.json

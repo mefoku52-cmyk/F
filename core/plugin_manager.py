@@ -51,14 +51,21 @@ def discover_plugins(plugins_package: str = "plugins") -> List[Plugin]:
         found_plugin = False
         for attr_name in dir(module):
             attr = getattr(module, attr_name)
-            if isinstance(attr, type) and issubclass(attr, Plugin) and attr is not Plugin:
+            if (
+                isinstance(attr, type)
+                and issubclass(attr, Plugin)
+                and attr is not Plugin
+            ):
                 try:
                     plugins.append(attr())
                     found_plugin = True
                 except Exception as e:
-                    logger.error("Nepodarilo sa vytvoriť inštanciu '%s': %s", attr_name, e)
+                    logger.error(
+                        "Nepodarilo sa vytvoriť inštanciu '%s': %s", attr_name, e
+                    )
         if not found_plugin:
-            logger.warning("Modul '%s' neobsahuje žiadnu triedu implementujúcu Plugin", module_name)
+            logger.warning(
+                "Modul '%s' neobsahuje žiadnu triedu implementujúcu Plugin", module_name
+            )
 
     return plugins
-

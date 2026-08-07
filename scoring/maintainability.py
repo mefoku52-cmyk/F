@@ -30,7 +30,11 @@ def score_maintainability(
     unused_imports_total = metrics.get("unused_imports_total", 0)
 
     # Duplicity z filesystem findings
-    dup_findings = [f for f in findings if f.plugin == "filesystem" and "duplicate" in f.message.lower()]
+    dup_findings = [
+        f
+        for f in findings
+        if f.plugin == "filesystem" and "duplicate" in f.message.lower()
+    ]
     duplicate_ratio = len(dup_findings) / max(1, len(findings))
 
     score = 100.0

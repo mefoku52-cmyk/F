@@ -7,8 +7,15 @@ def add_history_parser(subparsers) -> None:
     parser = subparsers.add_parser("history", help="Zobraziť históriu skenov")
     parser.add_argument("--project", "-p", help="Cesta k projektu", default=None)
     parser.add_argument("--limit", "-n", type=int, default=20, help="Počet záznamov")
-    parser.add_argument("--trend", "-t", choices=["maintainability", "architecture", "security"], help="Zobraziť trend")
-    parser.add_argument("--stats", "-s", action="store_true", help="Zobraziť štatistiky")
+    parser.add_argument(
+        "--trend",
+        "-t",
+        choices=["maintainability", "architecture", "security"],
+        help="Zobraziť trend",
+    )
+    parser.add_argument(
+        "--stats", "-s", action="store_true", help="Zobraziť štatistiky"
+    )
     parser.set_defaults(func=run_history)
 
 
@@ -46,7 +53,9 @@ def run_history(args: argparse.Namespace) -> int:
         scores = entry.get("scores", {})
         print(f"[{entry.get('datetime')}] {entry.get('project_path')}")
         print(f"  Súborov: {entry.get('file_count')}")
-        print(f"  Maintainability: {scores.get('maintainability', {}).get('score', 'N/A')}")
+        print(
+            f"  Maintainability: {scores.get('maintainability', {}).get('score', 'N/A')}"
+        )
         print(f"  Architecture: {scores.get('architecture', {}).get('score', 'N/A')}")
         print(f"  Security: {scores.get('security', {}).get('score', 'N/A')}")
         print()

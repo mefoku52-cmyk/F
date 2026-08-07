@@ -1,0 +1,3 @@
+cli/shared/domain/interfaces.py:13: unused variable 'entity' (100% confidence)
+di_config.py:15: unused variable 'binder' (100% confidence)
+tests/test_example.py:1: unused import 'pytest' (90% confidence)

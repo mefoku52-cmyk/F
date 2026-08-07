@@ -8,9 +8,15 @@ OSV_QUERYBATCH_URL = "https://api.osv.dev/v1/querybatch"
 OSV_VULN_URL_TEMPLATE = "https://api.osv.dev/v1/vulns/{vuln_id}"
 
 
-def check_dependencies(dependencies: List[Dict[str, str]], timeout: float = 10.0) -> Dict[str, Any]:
+def check_dependencies(
+    dependencies: List[Dict[str, str]], timeout: float = 10.0
+) -> Dict[str, Any]:
     if not dependencies:
-        return {"status": "skipped", "reason": "žiadne závislosti na kontrolu", "vulnerabilities": []}
+        return {
+            "status": "skipped",
+            "reason": "žiadne závislosti na kontrolu",
+            "vulnerabilities": [],
+        }
 
     queries = [
         {
@@ -21,7 +27,11 @@ def check_dependencies(dependencies: List[Dict[str, str]], timeout: float = 10.0
         if dep.get("version")
     ]
     if not queries:
-        return {"status": "skipped", "reason": "žiadne závislosti s presnou verziou", "vulnerabilities": []}
+        return {
+            "status": "skipped",
+            "reason": "žiadne závislosti s presnou verziou",
+            "vulnerabilities": [],
+        }
 
     body = json.dumps({"queries": queries}).encode("utf-8")
     request = urllib.request.Request(
@@ -35,12 +45,20 @@ def check_dependencies(dependencies: List[Dict[str, str]], timeout: float = 10.0
         with urllib.request.urlopen(request, timeout=timeout) as response:
             raw = response.read()
     except (urllib.error.URLError, OSError, TimeoutError) as e:
-        return {"status": "unavailable", "reason": f"OSV.dev API nedostupné: {e}", "vulnerabilities": []}
+        return {
+            "status": "unavailable",
+            "reason": f"OSV.dev API nedostupné: {e}",
+            "vulnerabilities": [],
+        }
 
     try:
         parsed = json.loads(raw)
     except json.JSONDecodeError:
-        return {"status": "unavailable", "reason": "OSV.dev vrátilo neplatný JSON", "vulnerabilities": []}
+        return {
+            "status": "unavailable",
+            "reason": "OSV.dev vrátilo neplatný JSON",
+            "vulnerabilities": [],
+        }
 
     batch_results = parsed.get("results", [])
 
@@ -48,7 +66,13 @@ def check_dependencies(dependencies: List[Dict[str, str]], timeout: float = 10.0
     for dep, result in zip(dependencies, batch_results):
         vuln_ids = [v.get("id") for v in result.get("vulns", []) if v.get("id")]
         for vuln_id in vuln_ids:
-            pending.append({"dependency": dep["name"], "version": dep.get("version"), "vuln_id": vuln_id})
+            pending.append(
+                {
+                    "dependency": dep["name"],
+                    "version": dep.get("version"),
+                    "vuln_id": vuln_id,
+                }
+            )
 
     if not pending:
         return {"status": "ok", "vulnerabilities": []}
@@ -84,4 +108,3 @@ def _fetch_vuln_detail(vuln_id: str, timeout: float) -> Dict[str, Any]:
         return json.loads(raw)
     except (urllib.error.URLError, OSError, TimeoutError, json.JSONDecodeError):
         return {}
-

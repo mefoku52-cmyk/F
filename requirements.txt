@@ -1,11 +1,21 @@
-# Volitelné závislosti pre rozšírenú funkcionalitu
-# Základná platforma beží bez nich (stdlib only).
-#
-# Pre YAML config:
-# PyYAML>=6.0
-#
-# Pre HTML reporty s grafmi (voliteľné):
-# jinja2>=3.0
-
-# Pre JavaScript/TypeScript plugin je potrebný ESLint
-# Inštalácia: npm install -g eslint
+# Python závislosti pre ForensicSuite
+bcrypt>=4.0.0
+python-dotenv>=1.0.0
+fastapi>=0.100.0
+uvicorn>=0.23.0
+pydantic>=2.0.0
+aiofiles>=23.0.0
+pyyaml>=6.0.0
+click>=8.0.0
+rich>=13.0.0
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0
+bandit>=1.7.0
+safety>=2.0.0
+pre-commit>=3.0.0
+vulture>=2.0.0
+radon>=6.0.0
+pylint>=2.17.0

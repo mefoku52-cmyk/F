@@ -20,35 +20,41 @@ class GitPlugin(Plugin):
 
         branch = self._run_git(project_path, ["branch", "--show-current"])
         if branch:
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.INFO,
-                message=f"Aktuálna vetva: {branch}",
-                location=project_path,
-                confidence=1.0,
-                metadata={"branch": branch},
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.INFO,
+                    message=f"Aktuálna vetva: {branch}",
+                    location=project_path,
+                    confidence=1.0,
+                    metadata={"branch": branch},
+                )
+            )
 
         uncommitted = self._has_uncommitted(project_path)
         if uncommitted:
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.MEDIUM,
-                message="Nepotvrdené zmeny v repozitári",
-                location=project_path,
-                confidence=0.9,
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.MEDIUM,
+                    message="Nepotvrdené zmeny v repozitári",
+                    location=project_path,
+                    confidence=0.9,
+                )
+            )
 
         contributors = self._get_contributors(project_path)
         if len(contributors) > 10:
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.INFO,
-                message=f"Veľa prispievateľov: {len(contributors)}",
-                location=project_path,
-                confidence=0.8,
-                metadata={"contributor_count": len(contributors)},
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.INFO,
+                    message=f"Veľa prispievateľov: {len(contributors)}",
+                    location=project_path,
+                    confidence=0.8,
+                    metadata={"contributor_count": len(contributors)},
+                )
+            )
 
         return findings
 
@@ -56,7 +62,10 @@ class GitPlugin(Plugin):
         try:
             result = subprocess.run(
                 ["git", "-C", cwd] + args,
-                capture_output=True, text=True, timeout=10, check=False
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
             )
             return result.stdout.strip()
         except (FileNotFoundError, subprocess.TimeoutExpired):

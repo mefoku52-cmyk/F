@@ -1,0 +1,80 @@
+import re
+from typing import List
+
+from core.collector import FileInfo
+from core.finding import Finding, Severity
+from core.plugin_manager import Plugin
+
+
+SHELL_EXTENSIONS = {
+    ".sh",
+    ".bash",
+    ".zsh",
+    ".ksh",
+}
+
+
+DANGEROUS_PATTERNS = {
+    "eval": r"\beval\s",
+    "exec": r"\bexec\s",
+    "rm_rf": r"rm\s+-[a-zA-Z]*f",
+    "curl_pipe": r"curl\s+.*\|\s*(ba)?sh",
+    "wget_pipe": r"wget\s+.*\|\s*(ba)?sh",
+    "sudo": r"\bsudo\b",
+    "chmod_777": r"chmod\s+.*777",
+    "hardcoded_path": r"/data/data/com\.termux|/sdcard/|/system/",
+}
+
+
+SEVERITY_MAP = {
+    "eval": Severity.HIGH,
+    "exec": Severity.HIGH,
+    "curl_pipe": Severity.CRITICAL,
+    "wget_pipe": Severity.CRITICAL,
+    "rm_rf": Severity.MEDIUM,
+    "sudo": Severity.MEDIUM,
+    "chmod_777": Severity.HIGH,
+    "hardcoded_path": Severity.LOW,
+}
+
+
+class ShellPlugin(Plugin):
+
+    @property
+    def name(self) -> str:
+        return "shell"
+
+    def supports(self, project_path: str, files: List[FileInfo]) -> bool:
+        return any(f.ext in SHELL_EXTENSIONS for f in files)
+
+    def analyze(self, project_path: str, files: List[FileInfo]) -> List[Finding]:
+        findings = []
+
+        for f in files:
+            if f.ext not in SHELL_EXTENSIONS:
+                continue
+
+            try:
+                with open(f.path, "r", encoding="utf-8", errors="ignore") as fh:
+                    lines = fh.readlines()
+            except OSError:
+                continue
+
+            for line_no, line in enumerate(lines, 1):
+                for danger_type, pattern in DANGEROUS_PATTERNS.items():
+
+                    if re.search(pattern, line):
+
+                        findings.append(Finding(
+                            plugin=self.name,
+                            severity=SEVERITY_MAP[danger_type],
+                            message=f"Nebezpečný príkaz: {danger_type}",
+                            location=f"{f.rel_path}:{line_no}",
+                            confidence=0.7,
+                            metadata={
+                                "type": danger_type,
+                                "content": line.strip()[:100],
+                            },
+                        ))
+
+        return findings

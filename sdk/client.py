@@ -8,10 +8,10 @@ from core.engine import ForensicEngine
 class ForensicSuiteClient:
     """
     Jednoduchý klient pre programové použitie ForensicSuite.
-    
+
     Príklad:
         from forensicsuite_sdk import ForensicSuiteClient
-        
+
         client = ForensicSuiteClient()
         result = client.scan("/path/to/project")
         print(result["scores"])
@@ -20,7 +20,7 @@ class ForensicSuiteClient:
     def __init__(self, config_path: Optional[str] = None, history_enabled: bool = True):
         """
         Inicializuje klienta.
-        
+
         Args:
             config_path: Cesta ku konfiguračnému súboru (YAML/JSON).
             history_enabled: Či sa má ukladať história skenov.
@@ -35,11 +35,11 @@ class ForensicSuiteClient:
     def scan(self, project_path: str, save_history: bool = True) -> Dict[str, Any]:
         """
         Spustí sken projektu a vráti výsledok.
-        
+
         Args:
             project_path: Cesta k projektu.
             save_history: Či sa má sken uložiť do histórie.
-            
+
         Returns:
             Kompletný výsledok skenu.
         """
@@ -54,13 +54,13 @@ class ForensicSuiteClient:
     ) -> Dict[str, Any]:
         """
         Spustí sken a vygeneruje reporty.
-        
+
         Args:
             project_path: Cesta k projektu.
             output_dir: Výstupný priečinok pre reporty.
             formats: Zoznam formátov (json, markdown, html).
             save_history: Či sa má sken uložiť do histórie.
-            
+
         Returns:
             Kompletný výsledok skenu.
         """
@@ -86,28 +86,32 @@ class ForensicSuiteClient:
 
         return result
 
-    def get_scores(self, project_path: str, save_history: bool = False) -> Dict[str, Any]:
+    def get_scores(
+        self, project_path: str, save_history: bool = False
+    ) -> Dict[str, Any]:
         """
         Vráti iba skóre (rýchla verzia bez reportov).
-        
+
         Args:
             project_path: Cesta k projektu.
             save_history: Či sa má sken uložiť do histórie.
-            
+
         Returns:
             Slovník so skóre.
         """
         result = self.scan(project_path, save_history=save_history)
         return result.get("scores", {})
 
-    def get_history(self, project_path: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
+    def get_history(
+        self, project_path: Optional[str] = None, limit: int = 50
+    ) -> List[Dict[str, Any]]:
         """
         Vráti históriu skenov pre daný projekt.
-        
+
         Args:
             project_path: Cesta k projektu (voliteľné).
             limit: Maximálny počet záznamov.
-            
+
         Returns:
             Zoznam historických záznamov.
         """
@@ -115,14 +119,16 @@ class ForensicSuiteClient:
             return []
         return self.engine.get_history(project_path, limit)
 
-    def get_trend(self, project_path: str, metric: str = "maintainability") -> List[Dict[str, Any]]:
+    def get_trend(
+        self, project_path: str, metric: str = "maintainability"
+    ) -> List[Dict[str, Any]]:
         """
         Vráti trend pre danú metriku.
-        
+
         Args:
             project_path: Cesta k projektu.
             metric: Názov metriky (maintainability, architecture, security).
-            
+
         Returns:
             Zoznam bodov trendu.
         """
@@ -133,7 +139,7 @@ class ForensicSuiteClient:
     def get_stats(self) -> Dict[str, Any]:
         """
         Vráti štatistiky z histórie.
-        
+
         Returns:
             Slovník so štatistikami.
         """

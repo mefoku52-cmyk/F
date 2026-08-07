@@ -1,0 +1,22 @@
+from fastapi import Request
+from fastapi.responses import JSONResponse
+from app.shared.domain.exceptions import (
+    NotFoundError, ConflictError, ValidationError,
+    UnauthorizedError, ForbiddenError
+)
+
+class ExceptionHandler:
+    @staticmethod
+    async def handle(request: Request, exc: Exception) -> JSONResponse:
+        status_map = {
+            NotFoundError: 404,
+            ConflictError: 409,
+            ValidationError: 400,
+            UnauthorizedError: 401,
+            ForbiddenError: 403,
+        }
+        status = status_map.get(type(exc), 500)
+        return JSONResponse(
+            status_code=status,
+            content={"detail": str(exc)}
+        )

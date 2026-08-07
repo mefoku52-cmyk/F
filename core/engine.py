@@ -38,7 +38,9 @@ class ForensicEngine:
         )
 
         plugins = discover_plugins()
-        plugin_results = run_plugins(plugins, self.project_path, files, progress_callback)
+        plugin_results = run_plugins(
+            plugins, self.project_path, files, progress_callback
+        )
 
         all_findings: List[Finding] = []
         for plugin_name, plugin_result in plugin_results.items():
@@ -57,11 +59,14 @@ class ForensicEngine:
         ai_analysis = {}
         try:
             from plugins.ai_assistant.plugin import AIAssistantPlugin
+
             ai = AIAssistantPlugin()
-            ai_analysis = ai.classify_findings({
-                "plugins": plugin_results,
-                "scores": scores,
-            })
+            ai_analysis = ai.classify_findings(
+                {
+                    "plugins": plugin_results,
+                    "scores": scores,
+                }
+            )
         except Exception as e:
             ai_analysis = {"error": str(e)}
 
@@ -73,10 +78,7 @@ class ForensicEngine:
             "plugins": plugin_results,
             "scores": scores,
             "ai_analysis": ai_analysis,
-            "config": {
-                k: v for k, v in self.config.items()
-                if k not in ("secrets",)
-            },
+            "config": {k: v for k, v in self.config.items() if k not in ("secrets",)},
         }
 
         if self.history_enabled and save_history and self.history:
@@ -88,12 +90,16 @@ class ForensicEngine:
 
         return result
 
-    def get_history(self, project_path: Optional[str] = None, limit: int = 50) -> List[Dict[str, Any]]:
+    def get_history(
+        self, project_path: Optional[str] = None, limit: int = 50
+    ) -> List[Dict[str, Any]]:
         if not self.history_enabled or not self.history:
             return []
         return self.history.get_history(project_path or self.project_path, limit=limit)
 
-    def get_trend(self, project_path: str, metric: str = "maintainability") -> List[Dict[str, Any]]:
+    def get_trend(
+        self, project_path: str, metric: str = "maintainability"
+    ) -> List[Dict[str, Any]]:
         if not self.history_enabled or not self.history:
             return []
         return self.history.get_trend(project_path, metric)

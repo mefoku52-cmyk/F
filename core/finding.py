@@ -67,7 +67,9 @@ def aggregate_findings(findings: List[Finding]) -> Dict[str, Any]:
     return result
 
 
-def filter_findings(findings: List[Finding], min_severity: Severity = Severity.MEDIUM) -> List[Finding]:
+def filter_findings(
+    findings: List[Finding], min_severity: Severity = Severity.MEDIUM
+) -> List[Finding]:
     return [f for f in findings if f.severity.value >= min_severity.value]
 
 

@@ -1,5 +1,6 @@
 import os
 import sys
+
 sys.path.insert(0, os.getcwd())
 
 api_path = "server/api.py"
@@ -57,9 +58,10 @@ else:
         content = content.replace("import json", "import json\nimport threading")
     # Nájdeme run_server a upravíme ho manuálne (jednoduchšie)
     import re
+
     pattern = r'def run_server\(host: str = "0.0.0.0", port: int = 8765\) -> None:.*?server\.shutdown\(\)'
     # Použijeme novú verziu
-    new_func = '''def run_server(host: str = "0.0.0.0", port: int = 8765) -> None:
+    new_func = """def run_server(host: str = "0.0.0.0", port: int = 8765) -> None:
     global _last_result
     import threading
     def auto_scan():
@@ -76,7 +78,7 @@ else:
         server.serve_forever()
     except KeyboardInterrupt:
         print("\\nServer ukončený.")
-        server.shutdown()'''
+        server.shutdown()"""
     content = re.sub(pattern, new_func, content, flags=re.DOTALL)
     with open(api_path, "w") as f:
         f.write(content)
@@ -85,4 +87,6 @@ else:
 print("")
 print("Teraz reštartuj API server:")
 print("  pkill -f 'server.api'")
-print("  python3 -c 'from server.api import run_server; run_server(host=\"0.0.0.0\", port=8765)'")
+print(
+    "  python3 -c 'from server.api import run_server; run_server(host=\"0.0.0.0\", port=8765)'"
+)

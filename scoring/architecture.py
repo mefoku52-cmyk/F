@@ -23,7 +23,11 @@ def score_architecture(
             break
 
     # Orphaned images z filesystem findings
-    orphaned = [f for f in findings if f.plugin == "filesystem" and "osamelý" in f.message.lower()]
+    orphaned = [
+        f
+        for f in findings
+        if f.plugin == "filesystem" and "osamelý" in f.message.lower()
+    ]
 
     score = 100.0
     score -= min(len(cycles) * cycle_penalty, 60)

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head><title>Diagnostika</title></head>
+<body>
+<h1>Diagnostika dashboardu</h1>
+<div id="output" style="font-family: monospace; white-space: pre-wrap;"></div>
+<script>
+const out = document.getElementById('output');
+out.innerHTML = '=== Spúšťam diagnostiku ===\n';
+
+// 1. Test Chart.js
+if (typeof Chart !== 'undefined') {
+    out.innerHTML += '✅ Chart.js načítaný\n';
+} else {
+    out.innerHTML += '❌ Chart.js NENÁČÍTANÝ (pravdepodobne chýba internet)\n';
+}
+
+// 2. Test report.json
+fetch('report.json')
+    .then(r => {
+        out.innerHTML += '✅ report.json načítaný (status: ' + r.status + ')\n';
+        return r.json();
+    })
+    .then(data => {
+        out.innerHTML += '✅ JSON parsovaný, scores: ' + JSON.stringify(data.scores || {}) + '\n';
+    })
+    .catch(e => {
+        out.innerHTML += '❌ report.json chyba: ' + e.message + '\n';
+    });
+
+// 3. Test API
+fetch('http://localhost:8765/health')
+    .then(r => {
+        out.innerHTML += '✅ API /health: ' + r.status + '\n';
+        return r.json();
+    })
+    .then(data => {
+        out.innerHTML += '✅ API odpoveď: ' + JSON.stringify(data) + '\n';
+    })
+    .catch(e => {
+        out.innerHTML += '❌ API chyba: ' + e.message + '\n';
+    });
+
+// 4. Test canvas (radar)
+const canvas = document.createElement('canvas');
+document.body.appendChild(canvas);
+try {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+        out.innerHTML += '✅ Canvas 2D kontext funguje\n';
+    } else {
+        out.innerHTML += '❌ Canvas 2D kontext NEFUNGUJE\n';
+    }
+} catch(e) {
+    out.innerHTML += '❌ Canvas chyba: ' + e.message + '\n';
+}
+document.body.removeChild(canvas);
+
+out.innerHTML += '\n=== Diagnostika dokončená ===';
+</script>
+</body>
+</html>

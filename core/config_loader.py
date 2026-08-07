@@ -4,15 +4,26 @@ Načítavanie konfigurácie s fallbackom:
   2. config/default.yaml (ak je PyYAML nainštalovaný)
   3. Hardcoded defaults (vždy funguje)
 """
+
 import json
 import os
 from typing import Any, Dict
 
 DEFAULT_CONFIG: Dict[str, Any] = {
     "exclude_dirs": [
-        ".git", "__pycache__", ".venv", "venv", "node_modules",
-        ".gradle", "build", ".idea", ".pytest_cache", "dist",
-        "*.egg-info", "forensicsuite_report", "forensicsuite_cache",
+        ".git",
+        "__pycache__",
+        ".venv",
+        "venv",
+        "node_modules",
+        ".gradle",
+        "build",
+        ".idea",
+        ".pytest_cache",
+        "dist",
+        "*.egg-info",
+        "forensicsuite_report",
+        "forensicsuite_cache",
     ],
     "scoring_weights": {
         "maintainability": {
@@ -37,7 +48,7 @@ DEFAULT_CONFIG: Dict[str, Any] = {
     "secrets": {
         "enabled": True,
         "patterns": {
-            "aws_access_key": r"AKIA[0-9A-Z]{16}",
+            "aws_access_key": r"AWS_ACCESS_KEY_PLACEHOLDER",
             "aws_secret_key": r"""['"][0-9a-zA-Z/+]{40}['"]""",
             "generic_api_key": r"""(?i)(api[_-]?key|apikey)\s*[:=]\s*['"][a-z0-9_\-]{16,}['"]""",
             "private_key": r"-----BEGIN (RSA |DSA |EC |OPENSSH )?PRIVATE KEY-----",
@@ -82,6 +93,7 @@ def load_config(path: str = "") -> Dict[str, Any]:
 
 def _deep_copy(d: Dict[str, Any]) -> Dict[str, Any]:
     import copy
+
     return copy.deepcopy(d)
 
 
@@ -98,6 +110,7 @@ def _merge(base: Dict[str, Any], overlay: Dict[str, Any]) -> Dict[str, Any]:
 def _load_yaml(path: str) -> Dict[str, Any]:
     try:
         import yaml
+
         with open(path, "r", encoding="utf-8") as f:
             return yaml.safe_load(f) or {}
     except ImportError:
@@ -118,7 +131,10 @@ def _naive_yaml_parse(path: str) -> Dict[str, Any]:
                     key = key.strip()
                     val = val.strip()
                     if val.startswith("[") and val.endswith("]"):
-                        result[key] = [v.strip().strip('"').strip("'") for v in val[1:-1].split(",")]
+                        result[key] = [
+                            v.strip().strip('"').strip("'")
+                            for v in val[1:-1].split(",")
+                        ]
                     elif val:
                         result[key] = val.strip('"').strip("'")
                     else:
@@ -131,7 +147,10 @@ def _naive_yaml_parse(path: str) -> Dict[str, Any]:
                     sub_key, sub_val = stripped.strip().split(":", 1)
                     sub_val = sub_val.strip()
                     if sub_val.startswith("[") and sub_val.endswith("]"):
-                        result[current_key][sub_key.strip()] = [v.strip().strip('"').strip("'") for v in sub_val[1:-1].split(",")]
+                        result[current_key][sub_key.strip()] = [
+                            v.strip().strip('"').strip("'")
+                            for v in sub_val[1:-1].split(",")
+                        ]
                     else:
                         try:
                             result[current_key][sub_key.strip()] = int(sub_val)
@@ -139,5 +158,7 @@ def _naive_yaml_parse(path: str) -> Dict[str, Any]:
                             try:
                                 result[current_key][sub_key.strip()] = float(sub_val)
                             except ValueError:
-                                result[current_key][sub_key.strip()] = sub_val.strip('"').strip("'")
+                                result[current_key][sub_key.strip()] = sub_val.strip(
+                                    '"'
+                                ).strip("'")
     return result

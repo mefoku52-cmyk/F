@@ -1,6 +1,7 @@
 """
 Jednoduchý file-based cache pre AST výsledky a file metadata.
 """
+
 import hashlib
 import json
 import os
@@ -63,4 +64,3 @@ def set_cached(path: str, data: Dict[str, Any], config: Dict[str, Any]) -> None:
             json.dump(data, f, ensure_ascii=False)
     except OSError:
         pass
-

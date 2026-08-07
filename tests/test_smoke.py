@@ -76,6 +76,7 @@ def test_tool_runner():
 
 def test_config_loading():
     from core.config_loader import load_config
+
     config = load_config()
     assert "exclude_dirs" in config
     assert "scoring_weights" in config

@@ -46,22 +46,34 @@ class ShellPlugin(Plugin):
             for line_no, line in enumerate(lines, 1):
                 for danger_type, pattern in DANGEROUS_PATTERNS.items():
                     if re.search(pattern, line):
-                        findings.append(Finding(
-                            plugin=self.name,
-                            severity=Severity.CRITICAL if danger_type in ("eval", "exec", "curl_pipe", "wget_pipe") else Severity.HIGH,
-                            message=f"Nebezpečný príkaz: {danger_type}",
-                            location=f"{f.rel_path}:{line_no}",
-                            confidence=0.7,
-                            metadata={"type": danger_type, "content": line.strip()[:100]},
-                        ))
+                        findings.append(
+                            Finding(
+                                plugin=self.name,
+                                severity=(
+                                    Severity.CRITICAL
+                                    if danger_type
+                                    in ("eval", "exec", "curl_pipe", "wget_pipe")
+                                    else Severity.HIGH
+                                ),
+                                message=f"Nebezpečný príkaz: {danger_type}",
+                                location=f"{f.rel_path}:{line_no}",
+                                confidence=0.7,
+                                metadata={
+                                    "type": danger_type,
+                                    "content": line.strip()[:100],
+                                },
+                            )
+                        )
 
             if not has_shebang and f.ext == ".sh":
-                findings.append(Finding(
-                    plugin=self.name,
-                    severity=Severity.LOW,
-                    message=f"Chýbajúci shebang v {f.rel_path}",
-                    location=f.rel_path,
-                    confidence=0.9,
-                ))
+                findings.append(
+                    Finding(
+                        plugin=self.name,
+                        severity=Severity.LOW,
+                        message=f"Chýbajúci shebang v {f.rel_path}",
+                        location=f.rel_path,
+                        confidence=0.9,
+                    )
+                )
 
         return findings

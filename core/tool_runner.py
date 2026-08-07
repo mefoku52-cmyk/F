@@ -51,6 +51,7 @@ class ToolRunner:
         if rc != 0:
             return rc, {}, stderr
         import json
+
         try:
             return rc, json.loads(stdout) if stdout else {}, stderr
         except json.JSONDecodeError as e:
@@ -63,7 +64,9 @@ class ToolRunner:
         exclude_dirs: Optional[List[str]] = None,
     ) -> List[str]:
         """Nájde všetky súbory s danými príponami v projekte."""
-        exclude = set(exclude_dirs or [".git", "__pycache__", "node_modules", "build", "dist"])
+        exclude = set(
+            exclude_dirs or [".git", "__pycache__", "node_modules", "build", "dist"]
+        )
         result = []
         for root, dirs, files in os.walk(project_path):
             dirs[:] = [d for d in dirs if d not in exclude]

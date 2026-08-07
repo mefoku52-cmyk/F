@@ -1,0 +1,222 @@
+###################################################
+# 1. PYTHON SYNTAX – všetky .py súbory
+###################################################
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./cli/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./cli/main.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./cli/history_cmd.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/cache.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/collector.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/config_loader.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/cve_checker.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/engine.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/parser.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/plugin_manager.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/scheduler.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/finding.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/tool_runner.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/history.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/fixer.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./core/publisher.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/filesystem/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/filesystem/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/git/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/git/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/python/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/python/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/secrets/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/secrets/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/shell/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/shell/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/kotlin/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/kotlin/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/javascript/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/javascript/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/go/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/go/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/ai_assistant/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./plugins/ai_assistant/plugin.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./reports/html_report.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./reports/json_report.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./reports/markdown_report.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./scoring/architecture.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./scoring/maintainability.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./scoring/security.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./server/api.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./tests/test_smoke.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./version.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./setup.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./sdk/__init__.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./sdk/client.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./fix_api_duplicates.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./fix_api_no_block.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./monitor.py
+cat: /tmp/hc_err: No such file or directory
+./healthcheck.sh: line 13: /tmp/hc_err: Permission denied
+SYNTAX ERROR: ./tools/ai_postprocess.py
+cat: /tmp/hc_err: No such file or directory
+
+###################################################
+# 2. DISCOVER_PLUGINS – ktoré pluginy sa reálne nájdu
+###################################################
+Najdene pluginy (9): ['ai_assistant', 'filesystem', 'git', 'go', 'javascript', 'kotlin', 'python', 'secrets', 'shell']
+
+###################################################
+# 3. IMPORT VŠETKÝCH core/ MODULOV
+###################################################
+core.cache: OK
+core.collector: OK
+core.config_loader: OK
+core.cve_checker: OK
+core.engine: OK
+core.finding: OK
+core.fixer: OK
+core.history: OK
+core.parser: OK
+core.plugin_manager: OK
+core.publisher: OK
+core.scheduler: OK
+core.tool_runner: OK
+
+###################################################
+# 4. BEŽIACE PROCESY (8080 / 8765)
+###################################################
+u0_a388  23562  0.0  0.1 2367904 9236 pts/25   S<l   1970   0:00 python3 -m http.server 8080
+u0_a388  30042  0.2  0.3 2397156 23828 pts/25  S<    1970   0:01 python3 -c from server.api import run_server; run_server(host='0.0.0.0', port=8765)
+
+###################################################
+# 5. HTTP DOSTUPNOSŤ (curl)
+###################################################
+http://localhost:8080/index.html -> 200
+http://localhost:8080/report.json -> 200
+http://localhost:8765/health -> 200
+
+###################################################
+# 6. KONZISTENCIA report.json (dashboard vs forensicsuite_report)
+###################################################
+ZHODNÉ: dashboard/report.json == forensicsuite_report/report.json
+
+###################################################
+# 7. maintainability.score v dashboard/report.json
+###################################################
+score: 74.8
+file_count: 80
+findings: 15
+plugins pritomne: ['ai_assistant', 'filesystem', 'git', 'go', 'javascript', 'kotlin', 'python', 'secrets', 'shell']
+
+###################################################
+# 8. HTML vs JS – zhoda ID (getElementById vs id=)
+###################################################
+ID pouzite v JS ale chybajuce v HTML: ZIADNE
+
+###################################################
+# 9. Duplicitné .py súbory podľa obsahu (hash) v ForensicSuite-v1
+###################################################
+./healthcheck.sh: line 122: /tmp/hc_dupes: Permission denied
+Žiadne obsahovo identické .py súbory
+
+###################################################
+# 10. Zoznam .bak / .old / prepisujúcich .sh súborov
+###################################################
+./final_dashboard_and_tools.sh
+./fix_dashboard_final.sh
+./fix_dashboard_final_v2.sh
+./final_fix_all.sh
+
+HEALTHCHECK DOKONČENÝ: Mon Jul 27 22:53:06 CEST 2026

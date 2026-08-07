@@ -9,8 +9,16 @@ from core.parser import safe_read_text
 from core.plugin_manager import Plugin
 
 _COMPLEXITY_NODES = (
-    ast.If, ast.For, ast.AsyncFor, ast.While, ast.Try,
-    ast.ExceptHandler, ast.With, ast.AsyncWith, ast.Assert, ast.BoolOp,
+    ast.If,
+    ast.For,
+    ast.AsyncFor,
+    ast.While,
+    ast.Try,
+    ast.ExceptHandler,
+    ast.With,
+    ast.AsyncWith,
+    ast.Assert,
+    ast.BoolOp,
 )
 
 
@@ -19,7 +27,9 @@ def _cyclomatic_complexity(func_node: ast.AST) -> int:
     for node in ast.walk(func_node):
         if isinstance(node, _COMPLEXITY_NODES):
             complexity += 1
-        elif isinstance(node, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)):
+        elif isinstance(
+            node, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)
+        ):
             complexity += len(node.generators)
     return complexity
 
@@ -40,16 +50,20 @@ def _analyze_file_ast(tree: ast.AST, rel_path: str) -> Dict[str, Any]:
                     decorator_names.append(dec.id)
                 elif isinstance(dec, ast.Attribute):
                     decorator_names.append(dec.attr)
-                elif isinstance(dec, ast.Call) and isinstance(dec.func, (ast.Name, ast.Attribute)):
+                elif isinstance(dec, ast.Call) and isinstance(
+                    dec.func, (ast.Name, ast.Attribute)
+                ):
                     decorator_names.append(
                         dec.func.id if isinstance(dec.func, ast.Name) else dec.func.attr
                     )
-            functions.append({
-                "name": node.name,
-                "lineno": node.lineno,
-                "complexity": _cyclomatic_complexity(node),
-                "decorators": decorator_names,
-            })
+            functions.append(
+                {
+                    "name": node.name,
+                    "lineno": node.lineno,
+                    "complexity": _cyclomatic_complexity(node),
+                    "decorators": decorator_names,
+                }
+            )
         elif isinstance(node, ast.ClassDef):
             classes.append({"name": node.name, "lineno": node.lineno})
         elif isinstance(node, ast.Import):
@@ -96,9 +110,15 @@ def _detect_dead_code(file_analyses: List[Dict[str, Any]]) -> List[Dict[str, Any
     """
     SKIP_DECORATORS = {"property", "staticmethod", "classmethod", "abstractmethod"}
     FRAMEWORK_BASES = {
-        "BaseHTTPRequestHandler", "ThreadingMixIn", "HTTPServer",
-        "TCPServer", "UnixStreamServer", "UnixDatagramServer",
-        "BasePlugin", "Plugin", "ABC",
+        "BaseHTTPRequestHandler",
+        "ThreadingMixIn",
+        "HTTPServer",
+        "TCPServer",
+        "UnixStreamServer",
+        "UnixDatagramServer",
+        "BasePlugin",
+        "Plugin",
+        "ABC",
     }
 
     # Zbierame všetky použité názvy naprieč celým projektom
@@ -119,7 +139,10 @@ def _detect_dead_code(file_analyses: List[Dict[str, Any]]) -> List[Dict[str, Any
     # Heuristika: ak trieda obsahuje "Handler", "Server", "View", "Mixin" – pravdepodobne framework
     framework_classes = set()
     for cls_name in all_classes:
-        if any(pattern in cls_name for pattern in ["Handler", "Server", "View", "Mixin", "Plugin"]):
+        if any(
+            pattern in cls_name
+            for pattern in ["Handler", "Server", "View", "Mixin", "Plugin"]
+        ):
             framework_classes.add(cls_name)
         # Alebo ak je v názve BaseHTTPRequestHandler atď.
         if cls_name in FRAMEWORK_BASES:
@@ -152,18 +175,28 @@ def _detect_dead_code(file_analyses: List[Dict[str, Any]]) -> List[Dict[str, Any
             # 4. Framework override metódy (do_GET, do_POST, log_message, atď.)
             if file_has_framework and name.startswith("do_"):
                 continue
-            if file_has_framework and name in ("log_message", "handle", "setup", "finish_request"):
+            if file_has_framework and name in (
+                "log_message",
+                "handle",
+                "setup",
+                "finish_request",
+            ):
                 continue
 
             # 5. Public API metódy (obsahujú "scan", "report", "client", "export")
-            if any(keyword in name.lower() for keyword in ["scan", "report", "client", "export", "publish"]):
+            if any(
+                keyword in name.lower()
+                for keyword in ["scan", "report", "client", "export", "publish"]
+            ):
                 continue
 
             # 6. Cross-file volania
             if name in all_used_names:
                 continue
 
-            dead.append({"path": fa["path"], "function": name, "lineno": func["lineno"]})
+            dead.append(
+                {"path": fa["path"], "function": name, "lineno": func["lineno"]}
+            )
     return dead
 
 
@@ -177,7 +210,10 @@ def _build_import_graph(file_analyses: List[Dict[str, Any]]) -> Dict[str, Set[st
             for other_path in local_paths:
                 if other_path == fa["path"]:
                     continue
-                if other_path.endswith(candidate_suffix) or other_path == candidate_suffix:
+                if (
+                    other_path.endswith(candidate_suffix)
+                    or other_path == candidate_suffix
+                ):
                     local_deps.add(other_path)
         graph[fa["path"]] = local_deps
     return graph
@@ -220,11 +256,13 @@ def _parse_dependencies(project_path: str) -> List[Dict[str, str]]:
                 continue
             if "==" in line:
                 name, version = line.split("==", 1)
-                dependencies.append({
-                    "name": name.strip(),
-                    "version": version.strip(),
-                    "ecosystem": "PyPI",
-                })
+                dependencies.append(
+                    {
+                        "name": name.strip(),
+                        "version": version.strip(),
+                        "ecosystem": "PyPI",
+                    }
+                )
     return dependencies
 
 
@@ -245,92 +283,110 @@ class PythonPlugin(Plugin):
             try:
                 tree = ast.parse(source, filename=f.rel_path)
             except SyntaxError as e:
-                file_analyses.append({
-                    "path": f.rel_path,
-                    "error": f"SyntaxError: {e}",
-                    "functions": [],
-                    "classes": [],
-                    "imports": [],
-                    "unused_imports": [],
-                    "called_names": [],
-                    "loc": 0,
-                })
-                findings.append(Finding(
-                    plugin=self.name,
-                    severity=Severity.MEDIUM,
-                    message=f"SyntaxError v {f.rel_path}: {e}",
-                    location=f.rel_path,
-                    confidence=1.0,
-                ))
+                file_analyses.append(
+                    {
+                        "path": f.rel_path,
+                        "error": f"SyntaxError: {e}",
+                        "functions": [],
+                        "classes": [],
+                        "imports": [],
+                        "unused_imports": [],
+                        "called_names": [],
+                        "loc": 0,
+                    }
+                )
+                findings.append(
+                    Finding(
+                        plugin=self.name,
+                        severity=Severity.MEDIUM,
+                        message=f"SyntaxError v {f.rel_path}: {e}",
+                        location=f.rel_path,
+                        confidence=1.0,
+                    )
+                )
                 continue
 
             analysis = _analyze_file_ast(tree, f.rel_path)
-            analysis["loc"] = len([line for line in source.splitlines() if line.strip()])
+            analysis["loc"] = len(
+                [line for line in source.splitlines() if line.strip()]
+            )
             file_analyses.append(analysis)
 
         dead_code = _detect_dead_code(file_analyses)
         for dead in dead_code:
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.LOW,
-                message=f"Dead code: {dead['function']} v {dead['path']} (riadok {dead['lineno']})",
-                location=f"{dead['path']}:{dead['lineno']}",
-                confidence=0.6,
-                metadata={"function": dead["function"]},
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.LOW,
+                    message=f"Dead code: {dead['function']} v {dead['path']} (riadok {dead['lineno']})",
+                    location=f"{dead['path']}:{dead['lineno']}",
+                    confidence=0.6,
+                    metadata={"function": dead["function"]},
+                )
+            )
 
         graph = _build_import_graph(file_analyses)
         cycles = _find_cycles(graph)
         for cycle in cycles:
-            findings.append(Finding(
-                plugin=self.name,
-                severity=Severity.HIGH,
-                message=f"Cyklický import: {' -> '.join(cycle[:3])}{'...' if len(cycle) > 3 else ''}",
-                location=cycle[0],
-                confidence=0.9,
-                metadata={"cycle": cycle},
-            ))
+            findings.append(
+                Finding(
+                    plugin=self.name,
+                    severity=Severity.HIGH,
+                    message=f"Cyklický import: {' -> '.join(cycle[:3])}{'...' if len(cycle) > 3 else ''}",
+                    location=cycle[0],
+                    confidence=0.9,
+                    metadata={"cycle": cycle},
+                )
+            )
 
         dependencies = _parse_dependencies(project_path)
         cve_report = check_dependencies(dependencies)
         if cve_report.get("status") == "ok":
             for vuln in cve_report.get("vulnerabilities", []):
-                findings.append(Finding(
-                    plugin=self.name,
-                    severity=Severity.CRITICAL,
-                    message=f"CVE {vuln['vuln_id']}: {vuln.get('summary', '')[:100]}",
-                    location=vuln["dependency"],
-                    confidence=0.95,
-                    metadata={"vuln": vuln},
-                ))
+                findings.append(
+                    Finding(
+                        plugin=self.name,
+                        severity=Severity.CRITICAL,
+                        message=f"CVE {vuln['vuln_id']}: {vuln.get('summary', '')[:100]}",
+                        location=vuln["dependency"],
+                        confidence=0.95,
+                        metadata={"vuln": vuln},
+                    )
+                )
 
         # ---- PRIDÁME METRIKY AKO SAMOSTATNÝ FINDING ----
         total_functions = sum(len(fa.get("functions", [])) for fa in file_analyses)
         total_complexity = sum(
-            func["complexity"] for fa in file_analyses for func in fa.get("functions", [])
+            func["complexity"]
+            for fa in file_analyses
+            for func in fa.get("functions", [])
         )
-        avg_complexity = round(total_complexity / total_functions, 2) if total_functions else 0.0
+        avg_complexity = (
+            round(total_complexity / total_functions, 2) if total_functions else 0.0
+        )
         total_loc = sum(fa.get("loc", 0) for fa in file_analyses)
         unused_imports_total = sum(
             len(fa.get("unused_imports", [])) for fa in file_analyses
         )
 
-        findings.append(Finding(
-            plugin=self.name,
-            severity=Severity.INFO,
-            message="Python metrics",
-            confidence=1.0,
-            metadata={
-                "file_count": len(file_analyses),
-                "total_loc": total_loc,
-                "avg_function_complexity": avg_complexity,
-                "total_functions": total_functions,
-                "unused_imports_total": unused_imports_total,
-                "dead_code_count": len(dead_code),
-                "cyclic_imports": cycles,
-                "dependencies": dependencies,
-                "cve_report": cve_report,
-            }
-        ))
+        findings.append(
+            Finding(
+                plugin=self.name,
+                severity=Severity.INFO,
+                message="Python metrics",
+                confidence=1.0,
+                metadata={
+                    "file_count": len(file_analyses),
+                    "total_loc": total_loc,
+                    "avg_function_complexity": avg_complexity,
+                    "total_functions": total_functions,
+                    "unused_imports_total": unused_imports_total,
+                    "dead_code_count": len(dead_code),
+                    "cyclic_imports": cycles,
+                    "dependencies": dependencies,
+                    "cve_report": cve_report,
+                },
+            )
+        )
 
         return findings

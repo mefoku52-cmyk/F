@@ -1,6 +1,7 @@
 """
 ForensicSuite SDK – programové použitie platformy.
 """
+
 from sdk.client import ForensicSuiteClient
 
 __all__ = ["ForensicSuiteClient"]

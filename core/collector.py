@@ -23,15 +23,26 @@ def collect_files(
 ) -> List[FileInfo]:
     if exclude_dirs is None:
         exclude_dirs = {
-            ".git", "__pycache__", ".venv", "venv", "node_modules",
-            ".gradle", "build", ".idea", ".pytest_cache", "dist",
-            "*.egg-info", "forensicsuite_report", "forensicsuite_cache",
+            ".git",
+            "__pycache__",
+            ".venv",
+            "venv",
+            "node_modules",
+            ".gradle",
+            "build",
+            ".idea",
+            ".pytest_cache",
+            "dist",
+            "*.egg-info",
+            "forensicsuite_report",
+            "forensicsuite_cache",
         }
 
     results: List[FileInfo] = []
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [
-            d for d in dirnames
+            d
+            for d in dirnames
             if not any(fnmatch.fnmatch(d, pattern) for pattern in exclude_dirs)
         ]
         for filename in filenames:
@@ -45,12 +56,13 @@ def collect_files(
             if include_patterns:
                 if not any(fnmatch.fnmatch(filename, pat) for pat in include_patterns):
                     continue
-            results.append(FileInfo(
-                path=full_path,
-                rel_path=rel_path,
-                size=stat.st_size,
-                ext=ext,
-                mtime=stat.st_mtime,
-            ))
+            results.append(
+                FileInfo(
+                    path=full_path,
+                    rel_path=rel_path,
+                    size=stat.st_size,
+                    ext=ext,
+                    mtime=stat.st_mtime,
+                )
+            )
     return results
-

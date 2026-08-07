@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+import json
+import os
+import sys
+import shutil
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from typing import Any, Dict
+import urllib.parse
+
+_SERVER_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if _SERVER_ROOT not in sys.path:
+    sys.path.insert(0, _SERVER_ROOT)
+
+from core.engine import ForensicEngine
+from core.fixer import fix_duplicates, get_deadcode_suggestions, get_dangerous_suggestions
+from core.history import HistoryManager
+from core.publisher import build_and_publish
+from reports import json_report, markdown_report, html_report
+
+_lock = threading.Lock()
+_last_result = None
+_engine = ForensicEngine(history_enabled=True)
+
+def _scan_project(path: str, formats: list) -> Dict[str, Any]:
+    global _last_result
+    result = _engine.run(path)
+    _last_result = result
+    output_dir = os.path.join(path, "forensicsuite_report")
+    os.makedirs(output_dir, exist_ok=True)
+    for fmt in formats:
+        if fmt == "json":
+            json_report.generate(result, output_dir)
+        elif fmt == "markdown":
+            markdown_report.generate(result, output_dir)
+        elif fmt == "html":
+            html_report.generate(result, output_dir)
+    return result
+
+class ForensicHandler(BaseHTTPRequestHandler):
+    
+    def _send_json(self, data: dict, status: int = 200):
+        self.send_response(status)
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
+        self.wfile.write(json.dumps(data).encode('utf-8'))
+    
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
+    
+    def do_GET(self):
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+        
+        if path == '/':
+            self._send_json({"status": "ok", "message": "ForensicSuite API v1.1.0"})
+        elif path == '/devices':
+            self._send_json({"devices": ["device1", "device2", "device3"]})
+        elif path == '/status':
+            self._send_json({"status": "running", "last_scan": _last_result is not None})
+        else:
+            self._send_json({"error": "Not found"}, 404)
+    
+    def do_POST(self):
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+        
+        content_length = int(self.headers.get('Content-Length', 0))
+        body = self.rfile.read(content_length).decode('utf-8')
+        
+        try:
+            data = json.loads(body) if body else {}
+        except:
+            data = {}
+        
+        if path == '/auth/login':
+            username = data.get('username', '')
+            password = data.get('password', '')
+            if username == "admin" and password == "admin123":
+                self._send_json({"access_token": "fake-token-123", "user": username})
+            else:
+                self._send_json({"error": "Invalid credentials"}, 401)
+        
+        elif path == '/scan':
+            scan_path = data.get('path', os.getcwd())
+            formats = data.get('formats', ['json'])
+            try:
+                with _lock:
+                    result = _scan_project(scan_path, formats)
+                self._send_json(result)
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+        
+        elif path == '/fix/duplicates':
+            path_to_fix = data.get('path', os.getcwd())
+            try:
+                result = fix_duplicates(path_to_fix)
+                self._send_json({"fixed": result})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+        
+        elif path == '/analysis/deadcode':
+            path_to_analyze = data.get('path', os.getcwd())
+            try:
+                result = get_deadcode_suggestions(path_to_analyze)
+                self._send_json({"deadcode": result})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+        
+        elif path == '/analysis/dangerous':
+            path_to_analyze = data.get('path', os.getcwd())
+            try:
+                result = get_dangerous_suggestions(path_to_analyze)
+                self._send_json({"dangerous": result})
+            except Exception as e:
+                self._send_json({"error": str(e)}, 500)
+        
+        else:
+            self._send_json({"error": "Not found"}, 404)
+
+def run_server(host: str = "0.0.0.0", port: int = 8765):
+    server = HTTPServer((host, port), ForensicHandler)
+    print(f"🔍 ForensicSuite API beží na http://{host}:{port}")
+    print(f"📋 Endpointy:")
+    print(f"   GET  /          - status")
+    print(f"   GET  /devices   - zoznam zariadení")
+    print(f"   POST /auth/login - prihlásenie")
+    print(f"   POST /scan      - spustenie skenovania")
+    print(f"   POST /fix/duplicates - oprava duplicít")
+    print(f"   POST /analysis/deadcode - mŕtvy kód")
+    print(f"   POST /analysis/dangerous - nebezpečné vzory")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\n🛑 Server ukončený.")
+        server.shutdown()
+
+if __name__ == "__main__":
+    run_server()
