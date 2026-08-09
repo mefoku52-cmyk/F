@@ -1,21 +1,418 @@
-MIT License
+FORENSIC TOOL COMMUNITY AND COMMERCIAL REVENUE-SHARING LICENSE
+Version 1.0
 
-Copyright (c) 2026 Radoslav Čornanič (mefoku52-cmyk)
+Copyright (c) 2026 Radoslav Čornanič
+All rights reserved except as expressly granted below.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+DÔLEŽITÉ UPOZORNENIE
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Táto licencia je proprietárna licencia s povoleným osobným a interným
+použitím. Nie je to licencia „open source“ ani licencia schválená Open Source
+Initiative.
+
+Použitie, distribúcia, poskytovanie služieb alebo iné komerčné využitie
+Softvéru podlieha podmienkam uvedeným v tejto licencii.
+
+Používateľ je povinný používať Softvér zákonným, zodpovedným a bezpečným
+spôsobom. Držiteľ práv nenesie zodpovednosť za konanie Používateľa ani
+akejkoľvek tretej osoby, ktorá Softvér použije, upraví, distribuuje alebo
+integruje.
+
+
+1. DEFINÍCIE
+
+1.1 „Softvér“ znamená tento počítačový program, jeho zdrojový kód,
+objektový kód, binárne súbory, dokumentáciu, konfiguračné súbory, skripty,
+modely, databázové štruktúry, grafické prvky a ďalšie materiály distribuované
+spolu s týmto súborom LICENSE.
+
+1.2 „Držiteľ práv“ znamená Radoslava Čornaniča, s kontaktnou adresou
+v Slovenskej republike, Snina, ktorý je držiteľom autorských alebo iných
+majetkových práv k Softvéru.
+
+1.3 „Používateľ“ znamená každú fyzickú alebo právnickú osobu, ktorá Softvér
+získa, používa, kopíruje, upravuje, integruje alebo ďalej distribuuje.
+
+1.4 „Úprava“ znamená akúkoľvek zmenu, rozšírenie, adaptáciu, opravu,
+portovanie, preklad, refaktoring, integráciu alebo inú zmenu Softvéru alebo
+jeho časti.
+
+1.5 „Komerčné využitie“ znamená akékoľvek použitie Softvéru alebo jeho časti,
+priamo alebo nepriamo, ktorého účelom alebo výsledkom je získanie príjmu,
+tržby, odmeny, licenčného poplatku, predplatného, provízie, sponzorského
+plnenia alebo iného majetkového prospechu.
+
+Za Komerčné využitie sa považuje najmä:
+
+a) predaj Softvéru alebo jeho časti;
+b) poskytovanie Softvéru ako služby vrátane SaaS, cloudovej služby,
+   hostingovej služby alebo spracovania údajov pre tretie osoby;
+c) zahrnutie Softvéru alebo jeho časti do komerčného produktu;
+d) poskytovanie platených forenzných, analytických, bezpečnostných,
+   monitorovacích alebo konzultačných služieb využívajúcich Softvér;
+e) poskytovanie prístupu k funkciám Softvéru za poplatok;
+f) distribúcia Softvéru v rámci podnikania alebo inej zárobkovej činnosti;
+g) použitie Softvéru na podporu predaja iného produktu alebo služby.
+
+1.6 „Hrubé komerčné príjmy“ znamenajú všetky sumy skutočne prijaté
+Používateľom alebo osobou konajúcou v jeho prospech v súvislosti s
+Komerčným využitím Softvéru, bez odpočítania nákladov, miezd, daní, poplatkov
+platobným službám, marketingových nákladov, nákladov na infraštruktúru alebo
+iných výdavkov, okrem DPH alebo obdobnej dane vybratej v mene príslušného
+daňového orgánu.
+
+1.7 „Oficiálny systém“ znamená oficiálne vydanie, repozitár, distribúciu alebo
+produkt Softvéru spravovaný alebo výslovne označený Držiteľom práv.
+
+
+2. UDELENIE PRÁV NA OSOBNÉ A INTERNÉ POUŽITIE
+
+2.1 Držiteľ práv udeľuje Používateľovi celosvetové, nevýhradné,
+neprevoditeľné a bezodplatné oprávnenie:
+
+a) prezerať a študovať zdrojový kód Softvéru;
+b) kopírovať Softvér na osobné alebo interné účely;
+c) upravovať Softvér na osobné alebo interné účely;
+d) vytvárať odvodené verzie na osobné alebo interné účely;
+e) používať takto upravenú verziu výlučne v rámci vlastnej osoby,
+   domácnosti, organizácie alebo podniku.
+
+2.2 Oprávnenia podľa článku 2 nezahŕňajú právo Softvér alebo jeho časť
+komerčne predávať, poskytovať ako službu, distribuovať za účelom zisku,
+sublicencovať alebo inak komerčne využívať bez splnenia článku 3.
+
+2.3 Používateľ nesmie odstrániť, zmeniť, skryť ani obísť označenie
+autorských práv, informácie o Držiteľovi práv, tento súbor LICENSE ani
+akékoľvek iné právne upozornenia dodané so Softvérom.
+
+
+3. KOMERČNÉ VYUŽITIE A 40 % PODIEL
+
+3.1 Komerčné využitie Softvéru je dovolené iba za predpokladu, že
+Používateľ:
+
+a) zachová všetky označenia podľa článku 4;
+b) vopred písomne oznámi Držiteľovi práv zamýšľané Komerčné využitie;
+c) uzná Držiteľovi práv podiel podľa tohto článku;
+d) bude viesť úplné a pravdivé účtovné záznamy o Komerčnom využití;
+e) bude poskytovať pravidelné výkazy a platby podľa článku 3.5;
+f) nebude Softvér vydávať za vlastné dielo ani vytvárať dojem, že Držiteľ
+   práv schválil jeho konkrétny komerčný produkt alebo službu.
+
+3.2 Používateľ je povinný odviesť Držiteľovi práv sumu vo výške 40 %
+z Hrubých komerčných príjmov získaných v súvislosti s Komerčným využitím
+Softvéru.
+
+3.3 Povinnosť podľa článku 3.2 vzniká automaticky okamihom prijatia prvej
+platby, odmeny alebo iného majetkového prospechu súvisiaceho s Komerčným
+využitím. Táto povinnosť vzniká bez ohľadu na to, či Používateľ Softvér
+predáva samostatne, poskytuje ho ako súčasť služby alebo ho začlení do
+iného produktu.
+
+3.4 Ak Komerčné využitie zahŕňa viacero produktov, služieb alebo zložiek,
+Používateľ nesmie účelovo presúvať príjmy, meniť cenovú štruktúru alebo
+používať iné účtovné opatrenia s cieľom znížiť podiel Držiteľovi práv.
+
+3.5 Používateľ predloží Držiteľovi práv štvrťročný výkaz najneskôr do
+30 dní po skončení každého kalendárneho štvrťroka. Výkaz musí obsahovať
+najmä:
+
+a) opis používaného produktu alebo služby;
+b) počet zákazníkov, licencií, predplatných alebo transakcií;
+c) výšku Hrubých komerčných príjmov;
+d) výpočet 40 % podielu;
+e) dátum a identifikáciu uskutočnenej platby.
+
+Platba musí byť uskutočnená do 30 dní od skončenia príslušného štvrťroka
+na účet alebo spôsobom oznámeným Držiteľom práv.
+
+3.6 Držiteľ práv je oprávnený po predchádzajúcom písomnom oznámení,
+najviac raz ročne a na vlastné náklady preskúmať záznamy primerane potrebné
+na overenie výpočtu podielu. Ak audit preukáže rozdiel vyšší ako 5 %
+v neprospech Držiteľa práv, Používateľ uhradí aj primerané náklady auditu.
+
+3.7 Ak Používateľ neposkytne výkaz alebo platbu riadne a včas, ide
+o podstatné porušenie tejto licencie. Tým nie je dotknuté právo Držiteľa
+práv požadovať neuhradený podiel, zákonný úrok z omeškania, náhradu škody
+ani iné právne prostriedky.
+
+
+4. POVINNÉ UZNANIE AUTORSTVA
+
+4.1 Každá kópia, distribúcia, Úprava, odvodené dielo, balík, obraz
+kontajnera, spustiteľná verzia, webové rozhranie a dokumentácia obsahujúca
+Softvér alebo jeho podstatnú časť musí zachovať:
+
+a) meno pôvodného autora a Držiteľa práv:
+   Radoslav Čornanič;
+
+b) informáciu o autorských právach:
+   Copyright (c) 2026 Radoslav Čornanič;
+
+c) úplné znenie tejto licencie alebo trvalý odkaz na jej úplné znenie;
+
+d) upozornenie, že použitá verzia môže obsahovať Úpravy tretích osôb;
+
+e) informáciu o miestach, kde boli vykonané podstatné Úpravy.
+
+4.2 Text tejto licencie a informácie podľa článku 4 nesmú byť odstránené,
+nahradené, zneviditeľnené, zmenené alebo obídené.
+
+4.3 Ak technická povaha distribúcie neumožňuje priloženie celého súboru
+LICENSE, musí byť licencia sprístupnená na trvalom a ľahko dostupnom mieste
+spolu so Softvérom, pričom samotný súbor LICENSE nesmie byť úmyselne
+odstránený z repozitára alebo distribučného balíka.
+
+
+5. ÚPRAVY A PRÍSPEVKY TRETÍCH OSÔB
+
+5.1 Používateľ smie vytvárať Úpravy pre osobné alebo interné účely podľa
+článku 2.
+
+5.2 Úpravy určené na zverejnenie, distribúciu, začlenenie do Oficiálneho
+systému alebo použitie v rámci oficiálneho vydania musia byť jasne označené
+ako Úpravy tretích osôb.
+
+5.3 Žiadna Úprava tretej osoby sa nestáva súčasťou Oficiálneho systému
+automaticky. Do Oficiálneho systému môže byť začlenená iba na základe
+výslovného písomného schválenia Držiteľa práv.
+
+5.4 Odoslaním návrhu, opravy, pull requestu, patchu, modulu alebo iného
+príspevku Držiteľovi práv Používateľ neposkytuje žiadne právo na jeho
+začlenenie, zverejnenie ani ďalšie použitie, pokiaľ to výslovne neupravuje
+samostatná písomná dohoda.
+
+5.5 Používateľ zodpovedá za to, že jeho Úpravy neporušujú autorské práva,
+patenty, ochranné známky, obchodné tajomstvo, osobné údaje ani iné práva
+tretích osôb.
+
+
+6. ZÁKAZ VYDÁVANIA ZA VLASTNÉ DIELO
+
+6.1 Používateľ nesmie Softvér ani jeho podstatnú časť:
+
+a) označovať za svoje pôvodné dielo;
+b) prezentovať ako Softvér vytvorený bez účasti Držiteľa práv;
+c) odstraňovať atribúcie alebo meniť pôvod autora;
+d) registrovať ako vlastné dielo spôsobom, ktorý by zakrýval alebo popieral
+   práva Držiteľa práv.
+
+6.2 Používateľ nesmie podať patentovú prihlášku alebo uplatniť iné výlučné
+právo k samotnému Softvéru, jeho pôvodným častiam alebo technickému riešeniu,
+ktoré bolo prevzaté zo Softvéru, ak tým obmedzí práva Držiteľa práv alebo
+iných oprávnených používateľov podľa tejto licencie.
+
+6.3 Tento článok nebráni Používateľovi chrániť vlastné, nezávisle vytvorené
+Úpravy, pokiaľ takáto ochrana nezasahuje do práv k pôvodnému Softvéru,
+nezabraňuje používaniu pôvodného Softvéru a neporušuje článok 3.
+
+
+7. PRÁVA TRETÍCH OSÔB A ZÁVISLOSTI
+
+7.1 Softvér môže obsahovať alebo používať komponenty tretích osôb
+distribuované podľa samostatných licencií. Na také komponenty sa vzťahujú
+ich vlastné licenčné podmienky.
+
+7.2 Táto licencia neudeľuje práva k ochranným známkam, obchodným názvom,
+logám, patentom, databázam, osobným údajom ani iným právam, ktoré nie sú
+výslovne udelené v tejto licencii.
+
+7.3 Používateľ je povinný pred distribúciou alebo Komerčným využitím overiť
+licenčné podmienky všetkých závislostí Softvéru a splniť ich požiadavky.
+
+
+8. SÚLAD SO ZÁKONOM
+
+8.1 Používateľ smie Softvér používať iba v súlade s platnými právnymi
+predpismi, najmä predpismi upravujúcimi ochranu osobných údajov, digitálne
+vyšetrovanie, kybernetickú bezpečnosť, prístup k informačným systémom,
+telekomunikácie, export a používanie dôkazov.
+
+8.2 Softvér je forenzný a analytický nástroj. Používateľ nesie výhradnú
+zodpovednosť za získanie potrebného oprávnenia na jeho použitie, za zákonnosť
+spracúvania údajov a za ochranu získaných informácií.
+
+8.3 Nič v tejto licencii neposkytuje oprávnenie na neoprávnený prístup,
+sledovanie, zachytávanie komunikácie, obchádzanie bezpečnostných opatrení
+alebo spracúvanie údajov bez právneho základu.
+
+
+9. UKONČENIE LICENCIE
+
+9.1 Oprávnenia podľa tejto licencie zanikajú okamžite, ak Používateľ:
+
+a) poruší podmienky článku 3;
+b) odstráni alebo obíde túto licenciu alebo atribúcie;
+c) vydáva Softvér za vlastný;
+d) vykonáva neoprávnené Komerčné využitie;
+e) poruší práva Držiteľa práv alebo tretích osôb.
+
+9.2 Po zániku licencie musí Používateľ bez zbytočného odkladu prestať
+Softvér používať, kopírovať, distribuovať a sprístupňovať, s výnimkou
+rozsahu, v ktorom ďalšie použitie vyžaduje kogentný právny predpis alebo
+písomné povolenie Držiteľa práv.
+
+9.3 Zánikom licencie nezanikajú nároky na úhradu podielu z príjmov získaných
+pred zánikom ani nároky vzniknuté v dôsledku porušenia tejto licencie.
+
+
+10. VYLÚČENIE ZÁRUKY
+
+10.1 SOFTVÉR SA POSKYTUJE „TAK, AKO JE“ A „AKO JE DOSTUPNÝ“, BEZ
+AKÝCHKOĽVEK VÝSLOVNÝCH ALEBO IMPLICITNÝCH ZÁRUK, POKIAĽ PLATNÉ PRÁVO
+NEURČUJE INAK.
+
+10.2 DRŽITEĽ PRÁV NEZARUČUJE, ŽE SOFTVÉR BUDE BEZ CHÝB, NEPRETRŽITE
+DOSTUPNÝ, BEZPEČNÝ, PRESNÝ, VHODNÝ NA KONKRÉTNY ÚČEL ALEBO ZLUČITEĽNÝ
+S KONKRÉTNYM SYSTÉMOM.
+
+10.3 Používateľ je povinný Softvér primerane otestovať pred použitím vo
+výrobe, pri forenznej analýze, pri bezpečnostnom incidente alebo v inom
+prostredí, v ktorom by chyba mohla spôsobiť škodu.
+
+
+11. OSOBITNÉ VYLÚČENIE ZODPOVEDNOSTI ZA POUŽITIE SOFTVÉRU
+
+11.1 Softvér je poskytovaný výlučne ako technický, forenzný a analytický
+nástroj. Držiteľ práv neposkytuje Používateľovi právne, bezpečnostné,
+forenzné, vyšetrovacie, odborné ani iné poradenstvo a nezaručuje, že použitie
+Softvéru bude v konkrétnom prípade zákonné, vhodné, presné, úplné alebo
+primerané.
+
+11.2 Používateľ nesie výhradnú a úplnú zodpovednosť za spôsob, účel,
+rozsah, okolnosti a následky používania Softvéru, ako aj za všetky úkony,
+rozhodnutia, postupy a opatrenia vykonané na základe jeho výstupov.
+
+11.3 V maximálnom rozsahu dovolenom platným právom Držiteľ práv nenesie
+žiadnu zodpovednosť za škodu, ujmu, stratu, náklad, nárok, sankciu, konanie
+alebo iný nepriaznivý následok vzniknutý v súvislosti s:
+
+a) neoprávneným, protiprávnym alebo zneužívajúcim použitím Softvéru;
+b) použitím Softvéru v rozpore s touto licenciou alebo platnými právnymi
+   predpismi;
+c) nesprávnym, neodborným, neúplným alebo zavádzajúcim postupom Používateľa;
+d) chybnou interpretáciou výsledkov alebo výstupov Softvéru;
+e) rozhodnutím Používateľa, jeho zamestnancov, spolupracovníkov, klientov
+   alebo iných osôb založeným na výstupoch Softvéru;
+f) poškodením, stratou, zmenou, zničením alebo zneprístupnením údajov,
+   zariadení, informačných systémov, sietí alebo služieb;
+g) neoprávneným prístupom, sledovaním, zachytávaním komunikácie,
+   obchádzaním bezpečnostných opatrení alebo iným protiprávnym použitím;
+h) porušením súkromia, ochrany osobných údajov, autorských práv, obchodného
+   tajomstva alebo iných práv tretích osôb;
+i) používaním Softvéru v rozpore s internými pravidlami organizácie,
+   bezpečnostnými postupmi alebo pokynmi oprávnených osôb;
+j) použitím Softvéru v prostredí, v ktorom môže jeho použitie spôsobiť
+   prevádzkovú, finančnú, právnu, bezpečnostnú alebo inú škodu.
+
+11.4 Držiteľ práv nenesie zodpovednosť za konanie ani opomenutie
+Používateľa alebo akejkoľvek tretej osoby, ktorá Softvér používa, upravuje,
+distribuuje, integruje alebo využíva jeho výstupy.
+
+11.5 Používateľ sa zaväzuje používať Softvér iba zákonným a zodpovedným
+spôsobom a zabezpečiť, aby všetky osoby používajúce Softvér v jeho mene
+dodržiavali túto licenciu a platné právne predpisy.
+
+11.6 Používateľ je povinný chrániť Držiteľa práv pred nárokmi tretích osôb,
+ktoré vzniknú v dôsledku konania alebo opomenutia Používateľa, jeho
+zamestnancov, spolupracovníkov, zmluvných partnerov, zákazníkov alebo iných
+osôb konajúcich pod jeho kontrolou alebo v jeho prospech.
+
+11.7 Povinnosť podľa článku 11.6 zahŕňa najmä povinnosť nahradiť Držiteľovi
+práv primerané náklady právneho zastúpenia, súdne poplatky, náklady konania,
+sankcie, náhrady škody a iné primerané výdavky, ktoré vzniknú v súvislosti
+s takýmto nárokom, v rozsahu dovolenom platným právom.
+
+11.8 Žiadne ustanovenie tejto licencie nemožno vykladať ako vylúčenie alebo
+obmedzenie zodpovednosti, ktorú podľa kogentných právnych predpisov nemožno
+vylúčiť alebo obmedziť, najmä zodpovednosti za úmyselne spôsobenú škodu,
+škodu spôsobenú hrubou nedbanlivosťou, ujmu na zdraví alebo iné nároky,
+pri ktorých zákon takéto obmedzenie nepripúšťa.
+
+
+12. OBMEDZENIE ZODPOVEDNOSTI
+
+12.1 V MAXIMÁLNOM ROZSAHU DOVOLENOM PLATNÝM PRÁVOM DRŽITEĽ PRÁV
+NEZODPOVEDÁ ZA PRIAME, NEPRIAME, NÁHODNÉ, NÁSLEDNÉ, EXEMPLÁRNE ANI
+OSOBITNÉ ŠKODY, VRÁTANE STRATY ÚDAJOV, ZISKU, PREVÁDZKY, DOBRÉHO MENA
+ALEBO OBCHODNÝCH PRÍLEŽITOSTÍ.
+
+12.2 Používateľ nesie zodpovednosť za všetky rozhodnutia vykonané na
+základe výstupov Softvéru vrátane rozhodnutí týkajúcich sa vyšetrovania,
+bezpečnosti, identity osôb, dôkazov alebo spracúvania osobných údajov.
+
+12.3 Nič v tejto licencii nevylučuje ani neobmedzuje zodpovednosť, ktorú
+podľa kogentných právnych predpisov nemožno vylúčiť alebo obmedziť.
+
+
+13. ROZHODNÉ PRÁVO A RIEŠENIE SPOROV
+
+13.1 Táto licencia sa riadi právnym poriadkom Slovenskej republiky,
+s výhradou kogentných ustanovení práva Európskej únie a kogentných ustanovení
+práva krajiny, v ktorej sa uplatňuje.
+
+13.2 Strany sa najprv pokúsia vyriešiť každý spor rokovaním v dobrej viere.
+
+13.3 Ak sa spor nepodarí vyriešiť rokovaním do 30 dní od doručenia písomného
+oznámenia o spore, na jeho riešenie sú príslušné súdy Slovenskej republiky,
+pokiaľ kogentné právne predpisy neurčujú inú právomoc.
+
+
+14. ODDĚLITEĽNOSŤ USTANOVENÍ
+
+14.1 Ak sa niektoré ustanovenie tejto licencie stane neplatným,
+nevymáhateľným alebo neúčinným, ostatné ustanovenia zostávajú v platnosti.
+
+14.2 Neplatné alebo nevymáhateľné ustanovenie sa nahradí ustanovením,
+ktoré sa čo najviac približuje jeho pôvodnému hospodárskemu a právnemu
+účelu a ktoré je podľa platného práva vymáhateľné.
+
+
+15. ZMENY LICENCIE
+
+15.1 Držiteľ práv môže zverejniť nové verzie tejto licencie. Verzia
+pripojená ku konkrétnej kópii Softvéru sa na túto kópiu vzťahuje až do
+okamihu, keď Používateľ výslovne prijme novšiu verziu alebo získa Softvér
+distribuovaný pod novšou verziou.
+
+15.2 Zmena licencie nemá spätný účinok na práva alebo povinnosti, ktoré
+vznikli pred jej účinnosťou, pokiaľ sa strany písomne nedohodnú inak.
+
+
+16. ÚPLNOSŤ DOHODY
+
+16.1 Táto licencia predstavuje úplnú dohodu týkajúcu sa používania
+Softvéru podľa jej predmetu a nahrádza všetky predchádzajúce ústne alebo
+písomné vyhlásenia v rovnakom rozsahu.
+
+16.2 Odchýlky od tejto licencie, najmä od povinnosti odviesť 40 % podiel,
+sú platné iba vtedy, ak ich Držiteľ práv výslovne schváli písomne.
+
+16.3 Ustanovenia článkov 10, 11 a 12 sa uplatňujú v maximálnom rozsahu
+dovolenom platným právom a zostávajú účinné aj po zániku tejto licencie,
+ak to vyžaduje povaha príslušných práv a povinností.
+
+
+17. KONTAKT
+
+Držiteľ práv:
+Radoslav Čornanič
+
+Adresa:
+Slovenská republika, Snina
+
+Telefón:
++421 910 616 338
+
+E-mail:
+mefoku52@gmail.com
+
+Web alebo repozitár:
+[URL REPOZITÁRA – VOLITEĽNÉ]
+
+Dátum vydania:
+9. august 2026
+
+
+KONIEC LICENCIE
