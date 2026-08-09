@@ -1,10 +1,21 @@
 """
 Generuje statický HTML report s prehľadnými sekciami.
 Nepotrebuje externé závislosti (žiadny Jinja2).
+
+Vstupy z `result` (názvy pluginov, skóre, dáta z pluginov) sú nedôveryhodné
+(pochádzajú z analyzovaného projektu), preto sa všetok text vkladaný do HTML
+escapuje pomocou `html.escape`, aby sa zabránilo XSS pri otvorení reportu
+v prehliadači.
 """
 
+import html
 import json
 from typing import Any, Dict
+
+
+def _esc(value: Any) -> str:
+    """Bezpečne escapuje ľubovoľnú hodnotu pre vloženie do HTML."""
+    return html.escape(str(value), quote=True)
 
 
 def generate(result: Dict[str, Any], output_path: str) -> None:
@@ -22,8 +33,8 @@ def generate(result: Dict[str, Any], output_path: str) -> None:
         score_text = "N/A" if score is None else f"{score}"
         score_html += f"""
         <div class="score-card">
-            <h3>{name}</h3>
-            <div class="score-value" style="color:{color}">{score_text}</div>
+            <h3>{_esc(name)}</h3>
+            <div class="score-value" style="color:{color}">{_esc(score_text)}</div>
             <div class="score-max">/ 100</div>
         </div>
         """
@@ -36,14 +47,18 @@ def generate(result: Dict[str, Any], output_path: str) -> None:
             if status == "ok"
             else "#f44336" if status == "error" else "#9e9e9e"
         )
+        raw_data = json.dumps(pdata.get("data", {}), indent=2, ensure_ascii=False)[:2000]
         plugin_html += f"""
         <div class="plugin-section">
-            <h4>{pname} <span class="badge" style="background:{status_color}">{status}</span></h4>
-            <pre>{json.dumps(pdata.get("data", {}), indent=2, ensure_ascii=False)[:2000]}</pre>
+            <h4>{_esc(pname)} <span class="badge" style="background:{status_color}">{_esc(status)}</span></h4>
+            <pre>{_esc(raw_data)}</pre>
         </div>
         """
 
-    html = f"""<!DOCTYPE html>
+    project_path = _esc(result.get("project_path", ""))
+    file_count = _esc(result.get("file_count", 0))
+
+    html_doc = f"""<!DOCTYPE html>
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
@@ -58,14 +73,14 @@ body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans
 .score-max {{ font-size: 18px; color: #666; }}
 .plugin-section {{ background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }}
 .badge {{ color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; margin-left: 10px; }}
-pre {{ background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; }}
+pre {{ background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px; white-space: pre-wrap; word-break: break-word; }}
 h4 {{ margin-top: 0; }}
 </style>
 </head>
 <body>
 <div class="header">
     <h1>ForensicSuite Report</h1>
-    <p>{result['project_path']} | {result['file_count']} súborov</p>
+    <p>{project_path} | {file_count} súborov</p>
 </div>
 <div class="scores">
     {score_html}
@@ -75,4 +90,4 @@ h4 {{ margin-top: 0; }}
 </html>"""
 
     with open(output_path, "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(html_doc)
