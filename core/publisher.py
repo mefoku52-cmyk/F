@@ -1,10 +1,10 @@
 import subprocess
 import sys
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 
-def _run(command: list[str]) -> subprocess.CompletedProcess[str]:
+def _run(command: List[str]) -> subprocess.CompletedProcess:
     return subprocess.run(
         command,
         capture_output=True,
