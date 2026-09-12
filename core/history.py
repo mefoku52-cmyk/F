@@ -110,7 +110,7 @@ class HistoryManager:
             "top_projects": top_projects,
         }
 
-    def get_trend(self, project_path: str, score_type: str, limit: int = 10) -> list:
+    def get_trend(self, project_path: str, score_type: str, limit: int = 10) -> List:
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         cursor.execute(
