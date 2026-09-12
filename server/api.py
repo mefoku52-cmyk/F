@@ -24,7 +24,7 @@ _last_result = None
 
 
 def _scan_project(path: str, formats: list) -> Dict[str, Any]:
-            global _last_result
+    global _last_result
     engine = ForensicEngine(history_enabled=True)
     result = engine.run(path)
     _last_result = result
@@ -59,7 +59,7 @@ class _Handler(BaseHTTPRequestHandler):
 
             self._send_json({"version": __version__})
         elif self.path == "/last_report":
-                    global _last_result
+            global _last_result
             if _last_result:
                 self._send_json(_last_result)
             else:
@@ -76,7 +76,7 @@ class _Handler(BaseHTTPRequestHandler):
             self._send_json({"error": "Not found"}, 404)
 
     def do_POST(self):
-                global _last_result
+        global _last_result
         if self.path == "/scan":
             content_length = int(self.headers.get("Content-Length", 0))
             body = self.rfile.read(content_length).decode("utf-8")
@@ -161,8 +161,8 @@ class _Handler(BaseHTTPRequestHandler):
             try:
                 payload = json.loads(body)
                 token = payload.get("token", "")
-            except:
-                self._send_json({"error": "Invalid JSON"}, 400)
+            except (json.JSONDecodeError, ValueError) as e:
+                self._send_json({"error": f"Invalid JSON: {str(e)}"}, 400)
                 return
             if not token:
                 self._send_json({"error": "Token je povinný"}, 400)
@@ -199,8 +199,8 @@ class _Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
 
-def run_server(host: str = "0.0.0.0",, port: int = 8765) -> None:
-            global _last_result
+def run_server(host: str = "0.0.0.0", port: int = 8765) -> None:
+    global _last_result
     # Automatický sken pri štarte – spustíme v samostatnom vlákne
     import threading
 
